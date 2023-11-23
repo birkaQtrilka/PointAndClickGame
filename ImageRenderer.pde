@@ -4,7 +4,7 @@ public class ImageRenderer extends Component
   Transform _transform;
   
   public ImageRenderer(PImage pImage)
-  { //<>//
+  {
     if (pImage == null){
        Image = Images.get("square.png");
     }
@@ -12,7 +12,7 @@ public class ImageRenderer extends Component
       Image = pImage;
     
   }
-  void OnAdd(){
+  void onAdd(){
     _transform = GameObject.getTransform();
   }
   @Override
@@ -22,8 +22,10 @@ public class ImageRenderer extends Component
     imageMode(CENTER);
 
     PVector position = GameObject.getTransform().Position;
+    PVector scale = GameObject.getTransform().Scale;
     //scale(_transform.Scale.x, _transform.Scale.y);
-    image(Image, position.x, position.y);
+
+    image(Image, 0, 0);
     //popMatrix();
   }
 }

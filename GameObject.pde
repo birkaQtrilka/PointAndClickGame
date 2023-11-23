@@ -20,18 +20,37 @@ public class GameObject
       AddComponent(c);
     }
   }
+  public GameObject(PVector pPosition, PVector pScale, Component[] pComponents)
+  {
+    _components.add(new Transform(this, pPosition, pScale));
+    for(var c : pComponents) //<>//
+    {
+      AddComponent(c);
+    }
+  } //<>//
   //end of constructors
   
   public void AddComponent(Component pComponent) 
   {
     _components.add(pComponent);
     pComponent.GameObject = this;
-    pComponent.OnAdd();
+    pComponent.onAdd();
   }
-  
+  public <T extends Component>  T GetComponent(Class<T> type)
+  {
+    for(var c : _components)
+    {
+      if(type.isInstance(c))
+        return (T)c;
+
+    }
+    return null;
+  }
   void update()
   {
+    pushMatrix();
     for(var c : _components)//do the scaling here?
       c.update();
+    popMatrix();
   }
 }

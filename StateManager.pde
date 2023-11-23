@@ -1,7 +1,5 @@
-public abstract class StateManager 
+public abstract class StateManager extends Component
 {
   public abstract void changeState(State scene);
-
-  public abstract void updateState();
 
 }

@@ -13,19 +13,19 @@ public class SceneManager extends StateManager
     firstScene = new Scene( this,
     new ArrayList<GameObject>(List.of(
       //backGround
-      new GameObject(new PVector(width/2,height/2), new Component[] { 
-        new ImageRenderer(Images.get("doorView.jpeg"))
+      new GameObject(new PVector(width/2,height/2),new PVector(0.5f,0.5f), new Component[] { 
+        new ImageRenderer(Images.get("bg1.png"))
       }),
       //player
-      new GameObject(new PVector(width/2,height/2), new Component[] { 
+      /*new GameObject(new PVector(width/4,height/4),new PVector(0.25f,0.25f), new Component[] { 
         new ImageRenderer(Images.get("teddy.png")), 
-        new PlayerMovement(1/*speed*/)
-      }),
+        new PlayerMovement(1)
+      })*/
       
-      new GameObject(new PVector(width/2,height/2), new Component[] { 
-        new ImageRenderer(null), 
-        new PlayerMovement(1/*speed*/),
-        //new AnimationController();
+      new GameObject(new PVector(width/2,height/2), new PVector(0.5f,0.5f), new Component[] { 
+        new ImageRenderer(null),
+        new PlayerMovement(1),
+        new AnimationController(AnimationName.ToddlerWalk)
       })
     )));
     
@@ -38,7 +38,7 @@ public class SceneManager extends StateManager
     currentScene = (Scene)scene;
     scene.onEnter();
   }
-  public void updateState()
+  public void update()
   {
     currentScene.update();
   }
