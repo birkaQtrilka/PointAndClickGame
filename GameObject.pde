@@ -2,7 +2,6 @@ public class GameObject
 {
   ArrayList<Component> _components =new ArrayList<Component>();
   public Transform getTransform() { return (Transform)_components.get(0);}
-  
   //constructors
   public GameObject()
   {
@@ -12,18 +11,30 @@ public class GameObject
   {
     _components.add(new Transform(this, pPosition));
   }
-  public GameObject(PVector pPosition, Component[] pComponents)
+  public GameObject(PVector pPosition, Component... pComponents)
   {
     _components.add(new Transform(this, pPosition));
-    for(var c : pComponents)
-    {
-      AddComponent(c);
-    }
+    InitComponents( pComponents);
+
   }
-  public GameObject(PVector pPosition, PVector pScale, Component[] pComponents)
+
+  public GameObject(Transform pTransform, Component... pComponents) 
+  {
+    pTransform.GameObject  = this;
+    _components.add(pTransform);
+    
+    InitComponents( pComponents);
+
+  }
+  public GameObject(PVector pPosition, PVector pScale, Component... pComponents)
   {
     _components.add(new Transform(this, pPosition, pScale));
-    for(var c : pComponents) //<>//
+    InitComponents( pComponents); //<>//
+  } //<>//
+  //end of constructors
+  private void InitComponents(Component[] pComponents)
+  {
+    for(var c : pComponents)
     {
       _components.add(c);
       c.GameObject = this;
@@ -31,10 +42,8 @@ public class GameObject
     for(var c : pComponents)
     {
       c.onAdd();
-    }    
-  } //<>//
-  //end of constructors
-  
+    }  
+  }
   public void AddComponent(Component pComponent) 
   {
     _components.add(pComponent);
