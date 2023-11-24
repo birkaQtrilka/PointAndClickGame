@@ -25,8 +25,13 @@ public class GameObject
     _components.add(new Transform(this, pPosition, pScale));
     for(var c : pComponents) //<>//
     {
-      AddComponent(c);
+      _components.add(c);
+      c.GameObject = this;
     }
+    for(var c : pComponents)
+    {
+      c.onAdd();
+    }    
   } //<>//
   //end of constructors
   

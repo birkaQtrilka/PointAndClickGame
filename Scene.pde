@@ -1,16 +1,16 @@
-public class Scene extends State
+public class Scene extends State<SceneName>
 {
   private ArrayList<GameObject> _objects = new ArrayList<GameObject>();
-  SceneManager context;
+  SceneManager _context;
   
-  public Scene(StateManager pSceneManager ,ArrayList<GameObject> pObjects)//initialize and enter objects
+  public Scene(SceneName pKey, StateManager pContext, ArrayList<GameObject> pObjects)//initialize and enter objects
   {
-    super(pSceneManager);
+    super(pKey, pContext);
     _objects = pObjects;
   }
   @Override
   public void SetConcreteStateManager(StateManager abstractManager){
-    context = (SceneManager)abstractManager;
+    _context = (SceneManager)abstractManager;
   }
   @Override
   public void update( )
@@ -29,4 +29,5 @@ public class Scene extends State
   {
   
   }
+  public SceneName getNextState(){ return SceneName.ChildhoodRoom;}
 }

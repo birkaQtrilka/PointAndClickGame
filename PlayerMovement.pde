@@ -1,9 +1,10 @@
 public class PlayerMovement extends Component
 {
-  int _destinationPoint;
+  float _destinationPoint;
   public float MoveSpeed;
   int _direction;
   Transform _transform;
+  AnimationController _animController;
   
   public PlayerMovement(int pMoveSpeed)
   {
@@ -13,6 +14,8 @@ public class PlayerMovement extends Component
   public void onAdd()
   {
     _transform = GameObject.getTransform();
+    _animController = GameObject.GetComponent(AnimationController.class);
+    _destinationPoint = _transform.Position.x;
   }
   @Override
   public void update()
@@ -20,6 +23,22 @@ public class PlayerMovement extends Component
     PVector position = _transform.Position;
     if(Input.mouseUpThisFrame())
     {
+      getDirection(position);
+    }
+    if(!isInRange(position.x))
+    {
+      _animController.IsWalking = true;
+      position.x += MoveSpeed * _direction;
+      
+    }
+    else
+    {
+       _animController.IsWalking = false;
+
+    }
+  }
+  void getDirection(PVector position)
+  {
       _destinationPoint = mouseX;
       if(position.x - _destinationPoint > 0)
       {
@@ -33,12 +52,9 @@ public class PlayerMovement extends Component
           _transform.Scale.x *= -1;
         _direction = 1;
       }
-    }
-    if(!isInRange(position.x))
-      position.x += MoveSpeed * _direction;
   }
-  boolean isInRange(float currPosX)
+  boolean isInRange(float pCurrPosX)
   {
-    return abs(currPosX - _destinationPoint) <= MoveSpeed;
+    return abs(pCurrPosX - _destinationPoint) <= MoveSpeed;
   }
 }

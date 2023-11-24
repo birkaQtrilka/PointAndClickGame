@@ -2,15 +2,14 @@
 public HashMap<String,PImage> Images = new HashMap<String,PImage>();//get them by name
 public HashMap<String, PImage[]> SpriteSheets = new HashMap<String, PImage[]>();
 public SceneManager SceneManager;
-int GameStartTime = 0;
 void setup() {
   size (1920/2,1080/2);
   var imageLoader = new ImageLoader(dataPath(" "));
   Images = imageLoader.LoadAndGetImages();
   SpriteSheets = imageLoader.LoadAndGetSpriteSheets();
   Input.initialize(this);
-  GameStartTime = millis();
-  SceneManager = new SceneManager();
+  SceneManager = new SceneManager(SceneName.ChildhoodRoom);
+  SceneManager.onAdd();
 }
 
 void draw()

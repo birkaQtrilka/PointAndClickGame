@@ -6,7 +6,7 @@ public abstract class Component
    public Component(GameObject pGameObject)
    {
      GameObject = pGameObject;
-     onAdd();
+     //onAdd();
    }
    public Component()
    {
