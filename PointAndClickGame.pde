@@ -1,8 +1,12 @@
  
 public HashMap<String,PImage> Images = new HashMap<String,PImage>();//get them by name
 public HashMap<String, PImage[]> SpriteSheets = new HashMap<String, PImage[]>();
+public Stack<TopText> TopTextList = new Stack<TopText>();
+
 public SceneManager SceneManager;
-static PVector ZERO = new PVector(0,0);
+public static PVector ZERO = new PVector(0,0);
+public static PVector MousePos = new PVector();
+
 void setup() {
   size (1920/2,1080/2);
   var imageLoader = new ImageLoader(dataPath(" "));
@@ -16,11 +20,51 @@ void setup() {
 void draw()
 {
   background(0);
+  MousePos.x = mouseX;
+  MousePos.y = mouseY;
   SceneManager.update();
+  for(int i = 0; i < TopTextList.size(); i++)
+  {
+    var t = TopTextList.pop();
+    t.Display();
+
+  }
+
 }
 
 
-
+public class TopText
+{
+  public float x, y;
+  public String Content;
+  int alignment1;
+  int alignment2;
+  int rectMode;
+  int textSize;
+  int colr;
+  
+  public TopText(String pContent, int pTextSize, float pX, float pY, int pColr )
+  {
+    x= pX;
+    y = pY;
+    alignment1 = CENTER;
+    alignment2 = CENTER;
+    rectMode = CENTER;
+    textSize = pTextSize;
+    Content = pContent;
+    colr = pColr;
+  }
+  public void Display()
+  {
+    push();
+    fill(colr);
+    textAlign(alignment1,alignment2);
+    rectMode(rectMode);
+    textSize(textSize);
+    text(Content, x, y);
+    pop();
+  }
+}
 /*boolean mouseWasPressed;
 int hold;
 int holdTime = 10;

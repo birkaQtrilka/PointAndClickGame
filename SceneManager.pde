@@ -17,18 +17,23 @@ public class SceneManager extends StateManager<SceneName>
         new ArrayList<GameObject>(List.of(
             //backGround
           new GameObject(new PVector(width/2,height/2),new PVector(0.5f,0.5f),
-            new ImageRenderer(Images.get("bg1.png"))
+            new ImageRenderer("bg1.png")
+          ),
+          //Text Box
+          new GameObject(new Transform(new PVector(width/1.2f,300), new PVector(0.2f,0.2f),
+                            /*child of box*/ 
+                           new GameObject(new PVector(0,-100), new Text("Hello", 40, 0)
+                         )),  
+            new ImageRenderer("thoughtCloud.png")
           ),
           //player
           new GameObject(new PVector(width/2,height/1.5f), new PVector(0.5f,0.5f),  
-            new ImageRenderer(null),
-            new PlayerMovement(2),
+            new ImageRenderer(""),
+            new PlayerMovement(5),
+            new Rectangle(new PVector(170,400),true),//debug true
             new AnimationController(AnimationName.ToddlerIdle)
-          ),
-          //Text Box
-          new GameObject(new Transform(new PVector(300,300), /*child of box*/ new GameObject(ZERO, new Text("Hello", 100))),  
-            new ImageRenderer(null)
           )
+          
         ))
       )    
       //Scene 2 ===== BIRTHDAY PARTY =====

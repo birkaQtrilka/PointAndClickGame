@@ -29,8 +29,8 @@ public class GameObject
   public GameObject(PVector pPosition, PVector pScale, Component... pComponents)
   {
     _components.add(new Transform(this, pPosition, pScale));
-    InitComponents( pComponents); //<>//
-  } //<>//
+    InitComponents( pComponents);
+  }
   //end of constructors
   private void InitComponents(Component[] pComponents)
   {

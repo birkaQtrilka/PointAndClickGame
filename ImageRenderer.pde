@@ -12,6 +12,14 @@ public class ImageRenderer extends Component
       Image = pImage;
     
   }
+  public ImageRenderer(String imageName)
+  {
+    if (imageName == null || imageName == ""){
+       Image = Images.get("square.png");
+    }
+    else
+      Image = Images.get(imageName);
+  }
   void onAdd(){
     _transform = GameObject.getTransform();
   }
