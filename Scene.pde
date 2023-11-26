@@ -1,4 +1,4 @@
-public class Scene extends State<SceneName>
+public abstract class Scene extends State<SceneName>
 {
   private ArrayList<GameObject> _objects = new ArrayList<GameObject>();
   SceneManager _context;
@@ -15,8 +15,19 @@ public class Scene extends State<SceneName>
   @Override
   public void update( )
   {
-    for(var object : _objects)
-      object.update();
+    for(int i = 0; i < _objects.size(); i++)
+    {
+      var obj = _objects.get(i);
+      if(obj.DeleteFlag)
+      {
+        obj.onRemove();
+        _objects.remove(i--);
+      }else
+      {
+          obj.update();      
+      }
+    }
+      
       
   }
   @Override
@@ -27,18 +38,54 @@ public class Scene extends State<SceneName>
   @Override
   public void onExit()
   {
+    for(int i = 0; i < _objects.size(); i++)
+    {
+      var obj = _objects.get(i);
+
+      obj.onRemove();
+      _objects.remove(i--);
+
+    }
+  }
   
+}
+public class ChildhoodScene extends Scene
+{
+  public ChildhoodScene(SceneName pKey, StateManager pContext, GameObject... pObjects)
+  {
+    super(pKey, pContext, pObjects);
   }
   public SceneName getNextState()
   { 
-    /*
-      if(inventory.item == teddyBear)
-        return SceneName.OddOneOutMinigame2
-      else 
-        return SceneName.ChildhoodRoom
-    */
-    //if(mousePressed)
-    //  return SceneName.Party;
+    if(_context.GrabbedTeddy)
+          return SceneName.Park;
+
     return SceneName.ChildhoodRoom;
+  }
+}
+public class PartyScene extends Scene
+{
+  public PartyScene(SceneName pKey, StateManager pContext, GameObject... pObjects)
+  {
+    super(pKey, pContext, pObjects);
+  }
+  public SceneName getNextState()
+  { 
+    //NOT IMPLEMENTED
+
+    return SceneName.Party;
+  }
+}
+public class ParkScene extends Scene
+{
+  public ParkScene(SceneName pKey, StateManager pContext, GameObject... pObjects)
+  {
+    super(pKey, pContext, pObjects);
+  }
+  public SceneName getNextState()
+  { 
+     //NOT IMPLEMENTED
+
+    return SceneName.Park;
   }
 }

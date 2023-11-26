@@ -6,7 +6,6 @@
 public HashMap<String,PImage> Images = new HashMap<String,PImage>();//get them by name
 public HashMap<String, PImage[]> SpriteSheets = new HashMap<String, PImage[]>();
 
-
 public static  ArrayList<Stack<IRender>> LayerStacks = new ArrayList<Stack<IRender>>()
 {
   {
@@ -41,12 +40,14 @@ void draw()
   for(Stack<IRender> layer : LayerStacks)
     for(int i = 0; i < layer.size(); i++)
     {
+      push();
       var t = layer.pop(); //<>//
       t.render();
-
+      pop();
     }
-  
+
 }
+
 /*boolean mouseWasPressed;
 int hold;
 int holdTime = 10;

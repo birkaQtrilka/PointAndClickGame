@@ -2,10 +2,12 @@ import java.util.*;
 public enum SceneName
 {
   ChildhoodRoom,
-  Party
+  Party,
+  Park
 }
 public class SceneManager extends StateManager<SceneName>
 {
+  public boolean GrabbedTeddy;
   
   public SceneManager(SceneName pEntryKey)
   {
@@ -13,10 +15,10 @@ public class SceneManager extends StateManager<SceneName>
 
     States = Map.of( 
       //Scene 1 ===== CHILDHOOD ROOM =====
-      /*SceneName*/SceneName.ChildhoodRoom, new Scene(SceneName.ChildhoodRoom, this, 
+      SceneName.ChildhoodRoom, new ChildhoodScene(SceneName.ChildhoodRoom, this, 
           //backGround
           new GameObject(0,new PVector(width/2,height/2),new PVector(0.5f,0.5f),
-            new ImageRenderer("bg1.png")
+            new ImageRenderer("childhoodBg.png")
           ),
           
           //Text Box
@@ -29,22 +31,57 @@ public class SceneManager extends StateManager<SceneName>
           //player
           new GameObject(/*pLayer*/ 3,/*position*/new PVector(width/2,height/1.5f), /*scale*/new PVector(0.5f,0.5f),  
             /*coponents*/
+            new Player(),
             new AnimationController(AnimationName.ToddlerIdle),
             new ImageRenderer(""),
-            new PlayerMovement(5),
-            new Rectangle(new PVector(170,400),true)//debug true
+            new PlayerMovement(10),
+            new Grab(),
+            new Rectangle(new PVector(90,200),true)//debug true
+          ),
+          //teddy
+          new GameObject(/*layer*/ 1,/*position*/new PVector(width-100,height/1.3f), /*scale*/new PVector(0.7f,0.7f),  
+            /*components*/
+            new Teddy(),
+            new TextHover(),
+            new Text("Talk to Teddy \n v",20,3, new PVector(0,-100)),
+            new ImageRenderer("teddy.png"),
+            new Rectangle(new PVector(100,100),true),//debug true
+            new PlayerCollisionChecker()
+          ),
+          //door
+          new GameObject( 2,new PVector(100,height/2f),  
+            /*components*/
+            new Door(),
+            new TextHover(),
+            new Text("Talk to mom \n v",20,3, new PVector(0,-100)),
+            new Rectangle(new PVector(150,300),true),//debug true
+            new PlayerCollisionChecker()
           )
           
           
       ),
-      //Scene 2 ===== BIRTHDAY PARTY =====
-      SceneName.Party, new Scene(SceneName.Party, this, 
+      //Scene 2 ===== Park ===== 
+      SceneName.Park, new ParkScene(SceneName.Park, this,
       //background
-      new GameObject(0,new PVector(width/2,height/2),new PVector(0.5f,0.5f),
-            new ImageRenderer("doorView.jpeg")
-          )
+        new GameObject(0,new PVector(width/2,height/2),new PVector(0.5f,0.5f),
+            new ImageRenderer("parkBg.jpg")
+        ),
+          //teddy
+        new GameObject(2,new PVector(100,height/1.25f),new PVector(0.7f,0.7f),  
+            new ImageRenderer("teddy.png"),
+            new TeddyChoice()
+        )
+      ),
+        
+      //Scene 3 ===== BIRTHDAY PARTY =====
+      SceneName.Party, new PartyScene(SceneName.Party, this, 
+      //background
+        new GameObject(0,new PVector(width/2,height/2),new PVector(0.5f,0.5f),
+            new ImageRenderer("partyBg.png")
+
+        )
       )
-      //End of Scene 2 (Don't forget to put comma after above parenthesis if u want to add a new scene)
+      //End of Scene 3 (Don't forget to put comma after above parenthesis if u want to add a new scene)
     );
     
   }

@@ -1,8 +1,6 @@
 public class GameObject
 {
-  ArrayList<Component> _components =new ArrayList<Component>();
-  public Transform getTransform() { return (Transform)_components.get(0);}
-  public int Layer; 
+  
   //constructors
   public GameObject()
   {
@@ -54,22 +52,20 @@ public class GameObject
     InitComponents( pComponents);
 
   }
-  
-  
-  
-  
-  
+
   public GameObject(int pLayer, PVector pPosition, PVector pScale, Component... pComponents)
   {
     Layer = pLayer;
     _components.add(new Transform(this, pPosition, pScale));
     InitComponents( pComponents);
   }
-  
-  
-  
-  
+
   //end of constructors
+  
+  ArrayList<Component> _components =new ArrayList<Component>();
+  public Transform getTransform() { return (Transform)_components.get(0);}
+  public int Layer; 
+  public boolean DeleteFlag;
   private void InitComponents(Component[] pComponents)
   {
     for(var c : pComponents)
@@ -98,11 +94,19 @@ public class GameObject
     }
     return null;
   }
+  
   void update()
   {
-    pushMatrix();
+    for(var c : _components)
+    {
+      if(c.enabled)
+        c.update();
+    
+    }
+  }
+  public void onRemove()
+  {
     for(var c : _components)//do the scaling here?
-      c.update();
-    popMatrix();
+      c.onRemove();
   }
 }

@@ -9,7 +9,7 @@ public class ImageLoader
     boolean accept(File dir, String name) 
     {
       var lowerCaseName = name.toLowerCase();
-      return lowerCaseName.endsWith(".jpeg") || lowerCaseName.endsWith(".png");
+      return lowerCaseName.endsWith(".jpeg") || lowerCaseName.endsWith(".png") || lowerCaseName.endsWith(".jpg");
     }
   };
   String _path;

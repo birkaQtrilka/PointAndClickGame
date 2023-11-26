@@ -34,6 +34,7 @@ public class ImageRenderer extends Component implements IRender
   @Override 
   public void render()
   {
+    if(Image == null) return;
     push();
     imageMode(CENTER);
     var pos = _transform.Position;
