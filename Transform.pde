@@ -1,7 +1,10 @@
 public class Transform extends Component
 {
   public PVector Position;
-  public PVector Scale;//this is not accurate, I'm too lazy to think of how to implement transform properly
+  public PVector Scale;
+  public PVector WorldPos = new PVector(0,0);
+  public PVector WorldScale = new PVector(1,1);
+  
   public Transform parent;
   public ArrayList<Transform> _children = new ArrayList<Transform>();
   public Transform(GameObject pGameObject, PVector pPosition)
@@ -30,6 +33,9 @@ public class Transform extends Component
       t.parent = this;
     }
   }
+  
+  
+  
   public Transform(PVector pPosition, PVector pScale, GameObject... pChildren)
   {
     super(null);
@@ -42,20 +48,20 @@ public class Transform extends Component
       t.parent = this;
     }
   }
+  
+  
+  
   public Transform getRoot()
   {
     if(parent == null)
       return this;
     return parent.getRoot();
   }
-  public PVector getWorldPos()
-  {
-    return getWorldPos(new PVector(0,0));
-  }
+
   private PVector getWorldPos(PVector pCurrPos)
   {
     
-    if(parent == null) //<>//
+    if(parent == null)
     {
       pCurrPos.x = (pCurrPos.x + Position.x);
       pCurrPos.y = (pCurrPos.y + Position.y);
@@ -68,12 +74,30 @@ public class Transform extends Component
     
     return pCurrPos;
   }
-  
-  @Override
-  public void update()//if child, you don't have connection to update loop
+
+  private PVector getWorldScale(PVector pCurrScale)
   {
-    translate(Position.x, Position.y);
-    scale(Scale.x, Scale.y);
+    pCurrScale.x = pCurrScale.x * Scale.x;
+    pCurrScale.y = pCurrScale.y * Scale.y;
+    if(parent == null)
+      return pCurrScale;
+    
+    parent.getWorldScale(pCurrScale);
+    
+    return pCurrScale;
+  }
+  @Override
+  public void update()
+  {
+    //reset vectors
+    WorldScale.x = 1;
+    WorldScale.y = 1;
+    WorldPos.x = 0;
+    WorldPos.y = 0;
+    
+    WorldScale = getWorldScale(WorldScale);
+    WorldPos = getWorldPos(WorldPos);
+    
     if(_children.size() == 0) return;
 
     for(var c : _children)

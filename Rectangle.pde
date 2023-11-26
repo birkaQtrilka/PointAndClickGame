@@ -1,9 +1,13 @@
-public class Rectangle extends Shape
+public class Rectangle extends Shape implements IRender
 {
   public PVector Size;
   boolean _fitImage = true;
   boolean _debug;
   boolean _collideWithMouse;
+  
+  PVector worldPos;
+  PVector scale;
+  
   Rectangle(PVector pSize)
   {
     Size = pSize;
@@ -28,11 +32,12 @@ public class Rectangle extends Shape
   public void onAdd()
   {
     super.onAdd();
+    worldPos = transform.WorldPos;
+    scale = transform.WorldScale;
     if(!_fitImage) return;// doesn't work. the image is 300 300 for some reason
-    
+
     PImage image = GameObject.GetComponent(ImageRenderer.class).Image;
     
-    println(image.width + " " + image.height);
     Size = new PVector(image.width, image.height);
   }
   //collision
@@ -40,14 +45,17 @@ public class Rectangle extends Shape
   public boolean IsColliding(PVector point)
   {
     //get world pos
-    var worldPos = transform.getWorldPos();
-    var scale = transform.Scale;
+
     return abs(worldPos.x - point.x) < Size.x/2 * abs(scale.x) && abs(worldPos.y - point.y) < Size.y/2 * abs(scale.y);
   }
   @Override
   public void update()
   {
     if(!_debug) return;
+    LayerStacks.get(GameObject.Layer).push(this);
+  }
+  public void render()
+  {
     if(IsColliding(MousePos)){
       stroke(#37CB71);
     }
@@ -56,6 +64,6 @@ public class Rectangle extends Shape
     strokeWeight(10);
     noFill();
     rectMode(CENTER);
-    rect(0,0,Size.x,Size.y);
+    rect(worldPos.x,worldPos.y,Size.x * scale.x,Size.y * scale.y);
   }
 }

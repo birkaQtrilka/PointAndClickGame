@@ -1,7 +1,21 @@
+ public interface IRender
+ {
+   public void render();
+ }
  
 public HashMap<String,PImage> Images = new HashMap<String,PImage>();//get them by name
 public HashMap<String, PImage[]> SpriteSheets = new HashMap<String, PImage[]>();
-public Stack<TopText> TopTextList = new Stack<TopText>();
+
+
+public static  ArrayList<Stack<IRender>> LayerStacks = new ArrayList<Stack<IRender>>()
+{
+  {
+    add(new Stack<IRender>());
+    add(new Stack<IRender>());
+    add(new Stack<IRender>());
+    add(new Stack<IRender>());
+  }
+};
 
 public SceneManager SceneManager;
 public static PVector ZERO = new PVector(0,0);
@@ -23,47 +37,15 @@ void draw()
   MousePos.x = mouseX;
   MousePos.y = mouseY;
   SceneManager.update();
-  for(int i = 0; i < TopTextList.size(); i++)
-  {
-    var t = TopTextList.pop();
-    t.Display();
-
-  }
-
-}
-
-
-public class TopText
-{
-  public float x, y;
-  public String Content;
-  int alignment1;
-  int alignment2;
-  int rectMode;
-  int textSize;
-  int colr;
   
-  public TopText(String pContent, int pTextSize, float pX, float pY, int pColr )
-  {
-    x= pX;
-    y = pY;
-    alignment1 = CENTER;
-    alignment2 = CENTER;
-    rectMode = CENTER;
-    textSize = pTextSize;
-    Content = pContent;
-    colr = pColr;
-  }
-  public void Display()
-  {
-    push();
-    fill(colr);
-    textAlign(alignment1,alignment2);
-    rectMode(rectMode);
-    textSize(textSize);
-    text(Content, x, y);
-    pop();
-  }
+  for(Stack<IRender> layer : LayerStacks)
+    for(int i = 0; i < layer.size(); i++)
+    {
+      var t = layer.pop(); //<>//
+      t.render();
+
+    }
+  
 }
 /*boolean mouseWasPressed;
 int hold;

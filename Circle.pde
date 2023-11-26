@@ -1,11 +1,17 @@
 class Circle extends Shape
 {
   int radius = 100;
-  
+  PVector worldPos;
+  PVector worldScale;
+  @Override
+  public void onAdd()
+  {
+    worldPos = transform.WorldPos;
+    worldScale = transform.WorldScale;
+  }
   //collision
   public boolean IsColliding(PVector point)
   {
-    var worldPos = transform.getWorldPos();
     return dist(point.x, point.y, worldPos.x,worldPos.y) < radius;
   }
   @Override
@@ -13,6 +19,6 @@ class Circle extends Shape
   {
     strokeWeight(10);
     noFill();
-    circle(0,0,radius * 2);
+    ellipse(worldPos.x,worldPos.y,radius * 2 * worldScale.x,radius * 2 * worldScale.y);
   }
 }

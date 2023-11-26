@@ -1,4 +1,4 @@
-public class ImageRenderer extends Component
+public class ImageRenderer extends Component implements IRender
 {
   private PImage Image;
   Transform _transform;
@@ -20,20 +20,28 @@ public class ImageRenderer extends Component
     else
       Image = Images.get(imageName);
   }
-  void onAdd(){
+
+  @Override
+  public void onAdd()
+  {
     _transform = GameObject.getTransform();
   }
   @Override
   public void update()
   {
-    //pushMatrix();
-    imageMode(CENTER);
-
-    PVector position = GameObject.getTransform().Position;
-    PVector scale = GameObject.getTransform().Scale;
-    //scale(_transform.Scale.x, _transform.Scale.y);
-
-    image(Image, 0, 0);
-    //popMatrix();
+    LayerStacks.get(GameObject.Layer).push(this);//add(this)
   }
+  @Override 
+  public void render()
+  {
+    push();
+    imageMode(CENTER);
+    var pos = _transform.Position;
+    var scl = _transform.WorldScale;
+    translate(pos.x,pos.y);
+    scale(scl.x,scl.y);
+    image(Image, 0, 0);
+    pop();
+  }
+  
 }

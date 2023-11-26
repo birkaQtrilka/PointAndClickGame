@@ -2,6 +2,7 @@ public class GameObject
 {
   ArrayList<Component> _components =new ArrayList<Component>();
   public Transform getTransform() { return (Transform)_components.get(0);}
+  public int Layer; 
   //constructors
   public GameObject()
   {
@@ -31,6 +32,43 @@ public class GameObject
     _components.add(new Transform(this, pPosition, pScale));
     InitComponents( pComponents);
   }
+  public GameObject(int pLayer, PVector pPosition)
+  {
+    Layer = pLayer;
+    _components.add(new Transform(this, pPosition));
+  }
+  public GameObject(int pLayer, PVector pPosition, Component... pComponents)
+  {
+    Layer = pLayer;
+    _components.add(new Transform(this, pPosition));
+    InitComponents( pComponents);
+
+  }
+
+  public GameObject(int pLayer, Transform pTransform, Component... pComponents) 
+  {
+    Layer = pLayer;
+    pTransform.GameObject  = this;
+    _components.add(pTransform);
+    
+    InitComponents( pComponents);
+
+  }
+  
+  
+  
+  
+  
+  public GameObject(int pLayer, PVector pPosition, PVector pScale, Component... pComponents)
+  {
+    Layer = pLayer;
+    _components.add(new Transform(this, pPosition, pScale));
+    InitComponents( pComponents);
+  }
+  
+  
+  
+  
   //end of constructors
   private void InitComponents(Component[] pComponents)
   {

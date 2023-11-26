@@ -1,4 +1,4 @@
-public class Text extends Component
+public class Text extends Component implements IRender
 {
   int alignment1;
   int alignment2;
@@ -42,7 +42,18 @@ public class Text extends Component
   @Override
   public void update()
   {
-    var worldPos = _transform.getWorldPos();
-    TopTextList.push(new TopText(Content, textSize, worldPos.x, worldPos.y, colr));
+    LayerStacks.get(GameObject.Layer).push(this);
+  }
+  public void render()
+  {
+    var worldPos = _transform.WorldPos;
+
+    push();
+    fill(colr);
+    textAlign(alignment1,alignment2);
+    rectMode(rectMode);
+    textSize(textSize);
+    text(Content, worldPos.x, worldPos.y);
+    pop();
   }
 }
