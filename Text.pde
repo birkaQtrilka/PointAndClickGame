@@ -69,7 +69,7 @@ public class Text extends Component implements IRender
     textAlign(alignment1,alignment2);
     rectMode(rectMode);
     textSize(textSize);
-    text(Content, worldPos.x+ _offset.x, worldPos.y +_offset.y);
+    text(Content, worldPos.x + _offset.x, worldPos.y +_offset.y);
     pop();
   }
 }

@@ -32,6 +32,7 @@ public class SceneManager extends StateManager<SceneName>
           new GameObject(/*pLayer*/ 3,/*position*/new PVector(width/2,height/1.5f), /*scale*/new PVector(0.5f,0.5f),  
             /*coponents*/
             new Player(),
+            new Text("",20,3, new PVector(0,-120)),
             new AnimationController(AnimationName.ToddlerIdle),
             new ImageRenderer(""),
             new PlayerMovement(10),
@@ -47,7 +48,17 @@ public class SceneManager extends StateManager<SceneName>
             new ImageRenderer("teddy.png"),
             new Rectangle(new PVector(100,100),true),//debug true
             new PlayerCollisionChecker()
+          ),//lore item
+          new GameObject(/*layer*/ 1,/*position*/new PVector(width-300,height/1.3f), /*scale*/new PVector(0.7f,0.7f),  
+            /*components*/
+            new LoreItem("I don't like ze teddy beaer *in russian accent* ", 50),
+            new TextHover(),
+            new Text("Talk to Teddy \n v",20,3, new PVector(0,-100)),
+            new ImageRenderer("teddy.png"),
+            new Rectangle(new PVector(100,100),true),//debug true
+            new PlayerCollisionChecker()
           ),
+          
           //door
           new GameObject( 2,new PVector(100,height/2f),  
             /*components*/
