@@ -15,5 +15,11 @@ public class Grab extends Component
        interactable.interact();
      }
   }
+  @Override
+  void onRemove()
+  {
+     PlayerInstance.onCollide.unbind(this, "OnCollision");
+
+  }
   //on remove unbind
 }
