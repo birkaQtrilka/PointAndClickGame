@@ -1,6 +1,9 @@
 import java.util.*;
 public enum SceneName
 {
+  Scene1Dairy,
+  Menu,
+  
   ChildhoodRoom,
   Party,
   Park
@@ -8,12 +11,48 @@ public enum SceneName
 public class SceneManager extends StateManager<SceneName>
 {
   public boolean GrabbedTeddy;
+  public boolean level1Finished;
+ public boolean level2Finished;
   
   public SceneManager(SceneName pEntryKey)
   {
     super(pEntryKey);
 
     States = Map.of( 
+      
+      //Menu Scene ==== START =====
+      SceneName.Menu, new MenuScene(SceneName.Menu, this, 
+      new GameObject(0,new PVector(width/2,height/2),new PVector(0.5f,0.5f), new ImageRenderer("game menu.png")),
+        //OBJECT: Toy Box
+          new GameObject( 2,new PVector(200,225),  
+            new ToyBox(),
+            new Rectangle(new PVector(150,150),true),
+            new Click()//debug true
+          )  ,  
+        //OBJECT: BaseBall
+          new GameObject(2,new PVector(450,275),  
+            new BaseBall(), 
+            //new MenuNextLevel(),
+            new Rectangle(new PVector(150,150),true),
+            new Click()//debug true
+          ) ,
+          //Lock
+          new GameObject(3,new PVector(450,275),new PVector(0.4,0.4),  
+            new ImageRenderer("lock.png"),
+            new MenuNextLevel1()
+          ) ,
+        //OBJECT: Drinks
+          new GameObject( 2,new PVector(700, 350),  
+            new Drinks(),
+            new Rectangle(new PVector(150,150),true),
+            new Click()//debug true
+          ),   
+          new GameObject(3,new PVector(700,350),new PVector(0.4,0.4),  
+            new ImageRenderer("lock.png"),
+            new MenuNextLevel2()
+          )
+      ),
+       
       //Scene 1 ===== CHILDHOOD ROOM =====
       SceneName.ChildhoodRoom, new ChildhoodScene(SceneName.ChildhoodRoom, this, 
           //backGround
@@ -38,6 +77,8 @@ public class SceneManager extends StateManager<SceneName>
             new Grab(),
             new Rectangle(new PVector(90,200),true)//debug true
           ),
+          
+          
           //teddy
           new GameObject(/*layer*/ 1,/*position*/new PVector(width-100,height/1.3f), /*scale*/new PVector(0.7f,0.7f),  
             /*components*/
@@ -56,9 +97,14 @@ public class SceneManager extends StateManager<SceneName>
             new Text("Talk to mom \n v",20,3, new PVector(0,-100)),
             new Rectangle(new PVector(150,300),true),//debug true
             new PlayerCollisionChecker()
+          ),
+          //Diary 1
+          new GameObject(4, new PVector(width/2, height/2), new PVector(0.5, 0.5),
+          new ImageRenderer("line-drawing-cartoon-open-diary-vector.jpg"),
+          new Click(),
+          new Rectangle(new PVector(displayWidth,displayHeight),true),//debug true
+          new Diary()
           )
-          
-          
       ),
       //Scene 2 ===== Park ===== 
       SceneName.Park, new ParkScene(SceneName.Park, this,
@@ -69,8 +115,25 @@ public class SceneManager extends StateManager<SceneName>
           //teddy
         new GameObject(2,new PVector(100,height/1.25f),new PVector(0.7f,0.7f),  
             new ImageRenderer("teddy.png"),
-            new TeddyChoice()
-        )
+            new TeddyChoice()),
+            
+              //player
+          new GameObject(/*pLayer*/ 3,/*position*/new PVector(width/2,height/1.4f), /*scale*/new PVector(0.5f,0.5f),  
+            /*coponents*/
+            new Player(),
+            new AnimationController(AnimationName.ToddlerIdle),
+            new ImageRenderer(""),
+            new PlayerMovement(10),
+            new Grab(),
+            new Rectangle(new PVector(90,200),true)//debug true
+        ),
+         //door
+          new GameObject( 2,new PVector(100,height/2f),  
+            /*components*/
+            new Bench(),
+            new Rectangle(new PVector(150,300),true),//debug true
+            new PlayerCollisionChecker()
+          )
       ),
         
       //Scene 3 ===== BIRTHDAY PARTY =====

@@ -12,6 +12,8 @@ public abstract class Scene extends State<SceneName>
   public void SetConcreteStateManager(StateManager abstractManager){
     _context = (SceneManager)abstractManager;
   }
+ 
+
   @Override
   public void update( )
   {
@@ -37,7 +39,8 @@ public abstract class Scene extends State<SceneName>
   }
   @Override
   public void onExit()
-  {
+  {/*
+  
     for(int i = 0; i < _objects.size(); i++)
     {
       var obj = _objects.get(i);
@@ -45,10 +48,28 @@ public abstract class Scene extends State<SceneName>
       obj.onRemove();
       _objects.remove(i--);
 
-    }
+    }*/
   }
   
 }
+
+
+
+public class MenuScene extends Scene
+{
+  public MenuScene(SceneName pKey, StateManager pContext, GameObject... pObjects)
+  {
+    super(pKey, pContext, pObjects);
+  }
+  public SceneName getNextState()
+  { 
+    if(_context.GrabbedTeddy)
+          return SceneName.Menu;
+
+    return SceneName.Menu;
+  }
+}
+
 public class ChildhoodScene extends Scene
 {
   public ChildhoodScene(SceneName pKey, StateManager pContext, GameObject... pObjects)

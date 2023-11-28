@@ -5,6 +5,7 @@
  
 public HashMap<String,PImage> Images = new HashMap<String,PImage>();//get them by name
 public HashMap<String, PImage[]> SpriteSheets = new HashMap<String, PImage[]>();
+public HashMap<String,AudioPlayer> Audios = new HashMap<String,AudioPlayer>();
 
 public static  ArrayList<Stack<IRender>> LayerStacks = new ArrayList<Stack<IRender>>()
 {
@@ -13,6 +14,7 @@ public static  ArrayList<Stack<IRender>> LayerStacks = new ArrayList<Stack<IRend
     add(new Stack<IRender>());
     add(new Stack<IRender>());
     add(new Stack<IRender>());
+    add(new Stack<IRender>()); //Diary layer
   }
 };
 
@@ -25,14 +27,17 @@ void setup() {
   var imageLoader = new ImageLoader(dataPath(" "));
   Images = imageLoader.LoadAndGetImages();
   SpriteSheets = imageLoader.LoadAndGetSpriteSheets();
+  AudioLoader audioLoader = new AudioLoader(this, dataPath(""));
+  Audios = audioLoader.LoadAndGetAudio();
   Input.initialize(this);
-  SceneManager = new SceneManager(SceneName.ChildhoodRoom);
+  SceneManager = new SceneManager(SceneName.Menu);
   SceneManager.onAdd();
 }
 
 void draw()
 {
   background(0);
+  //println(millis());
   MousePos.x = mouseX;
   MousePos.y = mouseY;
   SceneManager.update();
