@@ -7,7 +7,7 @@ public class Grab extends Component
   }
 
   void OnCollision(Shape shape)
-  {
+  {;
      if(Input.mousePressedThisFrame() && shape.IsColliding(MousePos))
      {
        var interactable = shape.GameObject.GetComponent(Interactable.class);

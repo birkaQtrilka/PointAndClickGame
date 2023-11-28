@@ -4,12 +4,13 @@ public class ImageRenderer extends Component implements IRender
   Transform _transform;
   
   public ImageRenderer(PImage pImage)
-  {
+  {/*
     if (pImage == null){
        Image = Images.get("square.png");
     }
-    else
+    else*/
       Image = pImage;
+      
     
   }
   public ImageRenderer(String imageName)
@@ -25,12 +26,15 @@ public class ImageRenderer extends Component implements IRender
   public void onAdd()
   {
     _transform = GameObject.getTransform();
+    //Image.resize(abs((int)_transform.WorldScale.x), abs((int)_transform.WorldScale.y));
+    
   }
   @Override
   public void update()
   {
-    LayerStacks.get(GameObject.Layer).push(this);//add(this)
+      LayerStacks.get(GameObject.Layer).push(this);//add(this)
   }
+  
   @Override 
   public void render()
   {
