@@ -111,7 +111,39 @@ public class DiaryMenu extends Interactable
 }
 
 //Scene 1 ===== CHILDHOOD ROOM =====
+public class JumpScareHandler extends Interactable
+{
+  AnimationController _anim;
+  boolean choiceMade;
+  Diary _diary;
+  @Override
+  void onAdd()
+  {
+    _anim = SceneManager.GetObjectInScene("Cutscene").GetComponent(AnimationController.class);
+    _diary = SceneManager.GetObjectInScene("diary").GetComponent(Diary.class);
+    _anim.enabled = false;
+  }
+  @Override
+  public void interact()
+  {
+    _anim.enabled = true;
+  }
+  @Override
+  public void update()
+  {
+    if(_anim.finishedJumpScare)
+    {
+      if(!choiceMade)
+      {
+        EvilScore++;
+        choiceMade = true;    
+        _anim.enabled = false;
+      }
+      _diary.InitiateSecondPhase();
 
+    }
+  }
+}
 public class Transition extends Interactable
 {
   boolean _isBadChoice;

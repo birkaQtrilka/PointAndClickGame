@@ -15,10 +15,7 @@ public class ImageRenderer extends Component implements IRender
   }
   public ImageRenderer(String imageName)
   {
-    if (imageName == null || imageName == ""){
-       Image = Images.get("square.png");
-    }
-    else
+    if (imageName != null && imageName != "")
       Image = Images.get(imageName);
   }
 

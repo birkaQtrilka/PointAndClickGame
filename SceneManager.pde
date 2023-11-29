@@ -154,7 +154,7 @@ public class SceneManager extends StateManager<SceneName>
             //new Transition(true),
             new TextHover(),
             new Text("Go for the ball yourself",20,3, new PVector(0,-50)),
-            new LevelButton(SceneName.JumpScare,-1),
+            new JumpScareHandler(),
             new Rectangle(new PVector(70,70),true),//debug true
             new PlayerCollisionChecker()
           ),
@@ -173,6 +173,11 @@ public class SceneManager extends StateManager<SceneName>
           new Button(),
           new Rectangle(new PVector(width-10,height-10),true),//debug true
           new Diary("diary template.png","diary template.png", SceneName.Menu, 2)
+        ),
+        new GameObject("Cutscene", 4, new PVector(width/2, height/2), new PVector(.5f,.5f),
+          new AnimationController(AnimationName.ArmJumpScare),
+          new ImageRenderer("")
+          //transition after cutscene to next diary
         )
       ),
       //text over the group of mean guys at start of the scene that disappears after some time
@@ -251,13 +256,8 @@ public class SceneManager extends StateManager<SceneName>
             new Button()//debug true
           )
         
-      ),
-      SceneName.JumpScare, new Scene(SceneName.JumpScare, this,
-        new GameObject("Animator", 0, new PVector(width/2, height/2), new PVector(.5f,.5f),
-          new AnimationController(AnimationName.ArmJumpScare)
-          //transition after cutscene to next diary
-        )
       )
+      
       
     );
     

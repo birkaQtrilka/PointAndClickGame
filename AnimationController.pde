@@ -17,7 +17,7 @@ public class AnimationController extends StateManager<AnimationName>//another st
   //context variables
   public ImageRenderer ImageRenderer;
   public boolean IsWalking;
-  
+  public boolean finishedJumpScare;
   
   public AnimationController(AnimationName pEntryState)
   {
@@ -30,7 +30,7 @@ public class AnimationController extends StateManager<AnimationName>//another st
       AnimationName.ChildIdle, new WalkingAnimation(AnimationName.ChildIdle, this, SpriteSheets.get("SashaChildWalking_8_1_ss.png"), true, 6,AnimationName.ChildWalk),
       AnimationName.TeenWalk, new IdleAnimation(AnimationName.TeenWalk, this, SpriteSheets.get("SashaChildWalking_8_1_ss.png"), true, 6, Images.get("childStanding.png"),AnimationName.TeenIdle),
       AnimationName.TeenIdle, new WalkingAnimation(AnimationName.TeenIdle, this, SpriteSheets.get("SashaChildWalking_8_1_ss.png"), true, 6,AnimationName.TeenWalk),
-      AnimationName.ArmJumpScare, new Cutscene(AnimationName.ArmJumpScare, this, jumpscareFrames, false, 6)
+      AnimationName.ArmJumpScare, new Cutscene(AnimationName.ArmJumpScare, this, jumpscareFrames, false, 3)
     );//create class cutscene that inherits from animation 
     
   }
@@ -112,6 +112,27 @@ public class Cutscene extends Animation
   public AnimationName getNextState()
   {
       return StateKey;
+  }
+  boolean _startedAnim;
+
+  @Override
+  public void update()
+  {
+     if(!_startedAnim)
+     {
+       _spriteIndex = 0;
+       _animationEnterTime = millis();
+       _nextTime = 0;
+       _startedAnim = true;
+     }
+     if(millis() - _animationEnterTime > _nextTime && _spriteIndex < spriteSheet.length)
+     {
+       context.ImageRenderer.Image = spriteSheet[_spriteIndex++];
+       _nextTime += _frameInterval;
+       if(_spriteIndex == spriteSheet.length)
+         context.finishedJumpScare = true;
+     } 
+   
   }
   @Override void onExit(){}
 }
