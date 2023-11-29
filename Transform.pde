@@ -103,6 +103,27 @@ public class Transform extends Component
     for(var c : _children)
       c.GameObject.update();
      
+  }
+  @Override
+  public void onAdd()
+  {
+    if(_children.size() == 0) return;
 
+    for(var c : _children)
+      c.GameObject.onStart();
+  }
+  @Override
+  public void onExit()
+  {
+    if(_children.size() == 0) return;
+
+    for(var c : _children)
+      c.GameObject.onExit();
+  }
+  @Override
+  public void onRemove()
+  {
+    for(var c : _children)
+      c.GameObject.onRemove();
   }
 }

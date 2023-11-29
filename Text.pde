@@ -4,7 +4,7 @@ public class Text extends Component implements IRender
   int alignment2;
   int rectMode;
   int textSize;
-  int colr = 0;
+  int _colr = 0;
   PVector _offset = ZERO;
   int _layer;
   boolean _personalLayer;
@@ -20,14 +20,26 @@ public class Text extends Component implements IRender
     textSize = pTextSize;
     Content = pContent;
   }
-  public Text(String pContent, int pTextSize, int colr )
+  public Text(int pTextSize, int pLayer, PVector pOffset)
+  {
+    textSize = pTextSize;
+    alignment1 = CENTER;
+    alignment2 = CENTER;
+    rectMode = CENTER;
+    _layer = pLayer;
+    _offset = pOffset;
+  }
+  public Text(String pContent, int pTextSize, int pLayer, int pColr )
   {
     alignment1 = CENTER;
     alignment2 = CENTER;
     rectMode = CENTER;
     textSize = pTextSize;
     Content = pContent;
-    
+    _layer = pLayer;
+    _colr = pColr;
+    _personalLayer = true;
+
   }
   public Text(String pContent, int pTextSize, int pLayer, PVector pOffset )
   {
@@ -52,6 +64,7 @@ public class Text extends Component implements IRender
   public void onAdd()
   {
     _transform = GameObject.getTransform();
+
     if(!_personalLayer)
       _layer = GameObject.Layer;
   }
@@ -62,10 +75,11 @@ public class Text extends Component implements IRender
   }
   public void render()
   {
-    var worldPos = _transform.WorldPos;
-
+    if(Content == null) return;
+    var worldPos = _transform.WorldPos; //<>//
+    
     push();
-    fill(colr);
+    fill(_colr);
     textAlign(alignment1,alignment2);
     rectMode(rectMode);
     textSize(textSize);

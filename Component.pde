@@ -16,6 +16,10 @@ public abstract class Component
    void onRemove()
    {
    }
+   void onExit()
+   {
+     
+   }
    public void update()
    {
    }

@@ -1,7 +1,15 @@
 public enum AnimationName
 {
     ToddlerWalk,
-    ToddlerIdle
+    ToddlerIdle,
+    
+    ChildWalk,
+    ChildIdle,
+    
+    TeenWalk,
+    TeenIdle,
+    
+    ArmJumpScare
 }
 
 public class AnimationController extends StateManager<AnimationName>//another state machine
@@ -16,9 +24,13 @@ public class AnimationController extends StateManager<AnimationName>//another st
     super(pEntryState);
 
     States = Map.of(
-      AnimationName.ToddlerWalk, new WalkingAnimation(AnimationName.ToddlerWalk,this, SpriteSheets.get("toddlerWalk_6_1_ss.png"), true, 6),
-      AnimationName.ToddlerIdle, new IdleAnimation(AnimationName.ToddlerIdle, this, SpriteSheets.get("toddlerWalk_6_1_ss.png"), true, 6, Images.get("toddlerStanding.png"))
-    );
+      AnimationName.ToddlerWalk, new WalkingAnimation(AnimationName.ToddlerWalk,this, SpriteSheets.get("toddlerWalk_6_1_ss.png"), true, 6, AnimationName.ToddlerIdle),
+      AnimationName.ToddlerIdle, new IdleAnimation(AnimationName.ToddlerIdle, this, SpriteSheets.get("toddlerWalk_6_1_ss.png"), true, 6, Images.get("toddlerStanding.png"), AnimationName.ToddlerWalk),
+      AnimationName.ChildWalk, new IdleAnimation(AnimationName.ChildWalk, this, SpriteSheets.get("SashaChildWalking_8_1_ss.png"), true, 6, Images.get("childStanding.png"),AnimationName.ChildIdle),
+      AnimationName.ChildIdle, new WalkingAnimation(AnimationName.ChildIdle, this, SpriteSheets.get("SashaChildWalking_8_1_ss.png"), true, 6,AnimationName.ChildWalk),
+      AnimationName.TeenWalk, new IdleAnimation(AnimationName.TeenWalk, this, SpriteSheets.get("SashaChildWalking_8_1_ss.png"), true, 6, Images.get("childStanding.png"),AnimationName.TeenIdle),
+      AnimationName.TeenIdle, new WalkingAnimation(AnimationName.TeenIdle, this, SpriteSheets.get("SashaChildWalking_8_1_ss.png"), true, 6,AnimationName.TeenWalk)
+    );//create class cutscene that inherits from animation 
     
   }
   @Override
@@ -97,10 +109,13 @@ public abstract class Animation extends State<AnimationName>
 public class IdleAnimation extends Animation
 {
   PImage _standingImage;
-  public IdleAnimation(AnimationName pKey,StateManager pContext, PImage[] pSpriteSheet, boolean pIsLooping, int pFramesPerSecond, PImage pStandingImage)
+  AnimationName _walkAnim;
+  public IdleAnimation(AnimationName pKey,StateManager pContext, PImage[] pSpriteSheet, boolean pIsLooping, int pFramesPerSecond, PImage pStandingImage, AnimationName pWalkAnim)
   {
     super( pKey, pContext, pSpriteSheet, pIsLooping, pFramesPerSecond);
+    _walkAnim=pWalkAnim;
     _standingImage = pStandingImage;
+    
   }
   @Override
   public void onEnter()
@@ -110,8 +125,8 @@ public class IdleAnimation extends Animation
   public AnimationName getNextState()
   {
     if(context.IsWalking)
-      return AnimationName.ToddlerWalk;
-    return AnimationName.ToddlerIdle;
+      return _walkAnim;
+    return StateKey;
   }
   @Override void onExit(){}
   
@@ -127,16 +142,18 @@ public class IdleAnimation extends Animation
 
 public class WalkingAnimation extends Animation
 {
-  public WalkingAnimation(AnimationName pKey,StateManager pContext, PImage[] pSpriteSheet, boolean pIsLooping, int pFramesPerSecond)
+  AnimationName _idleAnim;
+  public WalkingAnimation(AnimationName pKey,StateManager pContext, PImage[] pSpriteSheet, boolean pIsLooping, int pFramesPerSecond, AnimationName pIdleAnim)
   {
     super(pKey, pContext, pSpriteSheet, pIsLooping, pFramesPerSecond);
+    _idleAnim = pIdleAnim;
   }
   
   public AnimationName getNextState()
   {
     if(context.IsWalking)
-      return AnimationName.ToddlerWalk;
-    return AnimationName.ToddlerIdle;
+      return StateKey;
+    return _idleAnim;
   }
   @Override void onExit(){}
   

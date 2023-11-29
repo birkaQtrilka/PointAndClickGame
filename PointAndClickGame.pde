@@ -41,7 +41,6 @@ void draw()
   MousePos.x = mouseX;
   MousePos.y = mouseY;
   SceneManager.update();
-  
   for(Stack<IRender> layer : LayerStacks)
     for(int i = 0; i < layer.size(); i++)
     {

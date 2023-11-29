@@ -1,4 +1,4 @@
-public class Click extends Component
+public class Button extends Component
 {
   Shape _collider;
   
@@ -10,14 +10,12 @@ public class Click extends Component
 
   public void update()
   { 
-  if(_collider.IsColliding(MousePos) ){}
   
      if(Input.mousePressedThisFrame() && _collider.IsColliding(MousePos))
      {
-       var interactable = _collider.GameObject.GetComponent(Interactable.class);
+       var interactable = GameObject.GetComponent(Interactable.class);
        if(interactable == null)return;
        interactable.interact();
-       println("click");
      }
   }
   //on remove unbind

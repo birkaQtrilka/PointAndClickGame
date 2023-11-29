@@ -1,16 +1,13 @@
 
-public static Player PlayerInstance;
-
 public class Player extends Component
 {
   public Event onCollide;
   public Player()
   {
     onCollide = new Event(Shape.class/*with whom*/);
-    PlayerInstance = this;
     
   }
-
+  
 }
 
 public class PlayerMovement extends Component

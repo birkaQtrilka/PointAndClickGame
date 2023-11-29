@@ -2,9 +2,14 @@ public class TextHover extends Component
 {
   Shape _collider;
   Text _text;
+  
   public TextHover()
   {
   
+  }
+  public Text getTextComponent()
+  {
+    return _text;
   }
   @Override
   void onAdd()

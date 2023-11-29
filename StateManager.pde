@@ -13,8 +13,12 @@ public abstract class StateManager<EState extends Enum> extends Component
   @Override
   public void onAdd()
   {
+    isTransitioningState = true;
+
     CurrentState = States.get(entryState);
     CurrentState.onEnter();
+    isTransitioningState = false;
+
   }
   public void update()
   {

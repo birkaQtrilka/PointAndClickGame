@@ -1,9 +1,11 @@
 public class Grab extends Component
 {
+  Player _player;
   @Override 
   public void onAdd()
   {
-    PlayerInstance.onCollide.bind(this, "OnCollision");
+    _player = SceneManager.GetObjectInScene("player").GetComponent(Player.class);
+    _player.onCollide.bind(this, "OnCollision");
   }
 
   void OnCollision(Shape shape)
@@ -15,5 +17,9 @@ public class Grab extends Component
        interactable.interact();
      }
   }
-  //on remove unbind
+  @Override
+  void onExit()
+  {
+      _player.onCollide.unbind(this, "OnCollision");
+  }
 }

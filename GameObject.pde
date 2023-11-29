@@ -2,49 +2,57 @@ public class GameObject
 {
   
   //constructors
-  public GameObject()
+  public GameObject(String pName)
   {
+    Name = pName;
     _components.add(new Transform(this, new PVector(0,0)));
   }  
-  public GameObject(PVector pPosition)
+  public GameObject(String pName, PVector pPosition)
   {
+    Name = pName;
     _components.add(new Transform(this, pPosition));
   }
-  public GameObject(PVector pPosition, Component... pComponents)
+  public GameObject(String pName, PVector pPosition, Component... pComponents)
   {
+    Name = pName;
     _components.add(new Transform(this, pPosition));
     InitComponents( pComponents);
 
   }
 
-  public GameObject(Transform pTransform, Component... pComponents) 
+  public GameObject(String pName, Transform pTransform, Component... pComponents) 
   {
+    Name = pName;
     pTransform.GameObject  = this;
     _components.add(pTransform);
     
     InitComponents( pComponents);
 
   }
-  public GameObject(PVector pPosition, PVector pScale, Component... pComponents)
+  public GameObject(String pName, PVector pPosition, PVector pScale, Component... pComponents)
   {
+    Name = pName;
     _components.add(new Transform(this, pPosition, pScale));
     InitComponents( pComponents);
   }
-  public GameObject(int pLayer, PVector pPosition)
+  public GameObject(String pName, int pLayer, PVector pPosition)
   {
+    Name = pName;
     Layer = pLayer;
     _components.add(new Transform(this, pPosition));
   }
-  public GameObject(int pLayer, PVector pPosition, Component... pComponents)
+  public GameObject(String pName, int pLayer, PVector pPosition, Component... pComponents)
   {
+    Name = pName;
     Layer = pLayer;
     _components.add(new Transform(this, pPosition));
     InitComponents( pComponents);
 
   }
 
-  public GameObject(int pLayer, Transform pTransform, Component... pComponents) 
+  public GameObject(String pName, int pLayer, Transform pTransform, Component... pComponents) 
   {
+    Name = pName;
     Layer = pLayer;
     pTransform.GameObject  = this;
     _components.add(pTransform);
@@ -53,11 +61,13 @@ public class GameObject
 
   }
 
-  public GameObject(int pLayer, PVector pPosition, PVector pScale, Component... pComponents)
+  public GameObject(String pName, int pLayer, PVector pPosition, PVector pScale, Component... pComponents)
   {
+    Name = pName;
     Layer = pLayer;
     _components.add(new Transform(this, pPosition, pScale));
     InitComponents( pComponents);
+    
   }
 
   //end of constructors
@@ -66,6 +76,9 @@ public class GameObject
   public Transform getTransform() { return (Transform)_components.get(0);}
   public int Layer; 
   public boolean DeleteFlag;
+  public boolean Active = true;
+  public String Name;
+  
   private void InitComponents(Component[] pComponents)
   {
     for(var c : pComponents)
@@ -73,10 +86,7 @@ public class GameObject
       _components.add(c);
       c.GameObject = this;
     }
-    for(var c : pComponents)
-    {
-      c.onAdd();
-    }  
+    
   }
   public void AddComponent(Component pComponent) 
   {
@@ -97,6 +107,7 @@ public class GameObject
   
   void update()
   {
+    if(!Active) return;
     for(var c : _components)
     {
       if(c.enabled)
@@ -106,7 +117,19 @@ public class GameObject
   }
   public void onRemove()
   {
-    for(var c : _components)//do the scaling here?
+    for(var c : _components)
       c.onRemove();
+  }
+  public void onStart()
+  {
+    for(var c : _components)
+    {
+      c.onAdd();
+    }  
+  }
+  public void onExit()
+  {
+    for(var c : _components)
+      c.onExit();
   }
 }

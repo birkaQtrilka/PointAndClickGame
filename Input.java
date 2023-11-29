@@ -21,7 +21,7 @@ public class Input {
   final int START_KEY_RELEASE  = -1;
   final int REMOVE_KEY_RELEASE = -2;
   
-  static int mouseClickTimer;
+  static int mouseButtonTimer;
   static int mouseUpTimer;
   static boolean mousePress;
   
@@ -45,10 +45,10 @@ public class Input {
       preFrameDrawReset( keyTable     );
       preFrameDrawReset( keyCodeTable );
       
-      if(mouseClickTimer == 1)
-        mouseClickTimer++;
+      if(mouseButtonTimer == 1)
+        mouseButtonTimer++;
       else
-        mouseClickTimer = 0;
+        mouseButtonTimer = 0;
         
       if(mouseUpTimer == 1)
         mouseUpTimer++;
@@ -110,7 +110,7 @@ public class Input {
   }
   private void mousePress()
   {
-      mouseClickTimer++;
+      mouseButtonTimer++;
       mousePress = true;
   }
   private void mouseRelease()
@@ -121,7 +121,7 @@ public class Input {
 
   public static boolean mousePressedThisFrame()
   {
-     return mouseClickTimer > 0;
+     return mouseButtonTimer > 0;
   }
   public static boolean mouseUpThisFrame()
   {

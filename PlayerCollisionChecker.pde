@@ -1,6 +1,7 @@
 public class PlayerCollisionChecker extends Component//for rectangles only
 {
   Rectangle _playerCollider;
+  Player _player;
   Rectangle _myCollider;
   PVector _myPosition;
   PVector _playerPos;
@@ -10,7 +11,9 @@ public class PlayerCollisionChecker extends Component//for rectangles only
   { 
     _myCollider = GameObject.GetComponent(Rectangle.class);
     _myPosition = GameObject.getTransform().WorldPos;
-    _playerCollider = PlayerInstance.GameObject.GetComponent(Rectangle.class);
+    _player = SceneManager.GetObjectInScene("player").GetComponent(Player.class);
+    _playerCollider = _player.GameObject.GetComponent(Rectangle.class);
+
     _playerPos = _playerCollider.worldPos;
   }
   @Override//maybe change this when events are implemented
@@ -23,7 +26,7 @@ public class PlayerCollisionChecker extends Component//for rectangles only
     IsColliding = _myCollider.IsColliding(checkPoint);
     if(IsColliding) 
     {
-      PlayerInstance.onCollide.trigger(_myCollider);
+      _player.onCollide.trigger(_myCollider);
     
     }
   }

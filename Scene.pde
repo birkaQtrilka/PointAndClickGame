@@ -2,7 +2,6 @@ public abstract class Scene extends State<SceneName>
 {
   private ArrayList<GameObject> _objects = new ArrayList<GameObject>();
   SceneManager _context;
-  
   public Scene(SceneName pKey, StateManager pContext, GameObject... pObjects)//initialize and enter objects
   {
     super(pKey, pContext);
@@ -35,20 +34,19 @@ public abstract class Scene extends State<SceneName>
   @Override
   public void onEnter()
   {
-  
+    for(var o : _objects)
+    {
+      o.onStart();
+    }
+
   }
   @Override
   public void onExit()
-  {/*
-  
-    for(int i = 0; i < _objects.size(); i++)
+  {
+    for(var o : _objects)
     {
-      var obj = _objects.get(i);
-
-      obj.onRemove();
-      _objects.remove(i--);
-
-    }*/
+      o.onExit();
+    }
   }
   
 }
@@ -78,9 +76,6 @@ public class ChildhoodScene extends Scene
   }
   public SceneName getNextState()
   { 
-    if(_context.GrabbedTeddy)
-          return SceneName.Park;
-
     return SceneName.ChildhoodRoom;
   }
 }
@@ -108,5 +103,18 @@ public class ParkScene extends Scene
      //NOT IMPLEMENTED
 
     return SceneName.Park;
+  }
+}
+public class MiniGameScene extends Scene
+{
+public MiniGameScene(SceneName pKey, StateManager pContext, GameObject... pObjects)
+  {
+    super(pKey, pContext, pObjects);
+  }
+  public SceneName getNextState()
+  { 
+     //NOT IMPLEMENTED
+
+    return StateKey;
   }
 }
