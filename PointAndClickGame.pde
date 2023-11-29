@@ -21,7 +21,7 @@ public static  ArrayList<Stack<IRender>> LayerStacks = new ArrayList<Stack<IRend
 public SceneManager SceneManager;
 public static PVector ZERO = new PVector(0,0);
 public static PVector MousePos = new PVector();
-
+public static int EvilScore = 0;
 void setup() {
   size (1920/2,1080/2);
   var imageLoader = new ImageLoader(dataPath(" "));

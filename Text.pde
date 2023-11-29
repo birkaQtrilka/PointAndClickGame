@@ -76,7 +76,7 @@ public class Text extends Component implements IRender
   public void render()
   {
     if(Content == null) return;
-    var worldPos = _transform.WorldPos; //<>//
+    var worldPos = _transform.WorldPos;
     
     push();
     fill(_colr);

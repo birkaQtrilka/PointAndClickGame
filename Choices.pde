@@ -1,10 +1,18 @@
 class TeddyChoice extends Component
 {
-  @Override 
-  void update()
+  PImage _otherImage;
+  public TeddyChoice(String pOtherImageName)
   {
-    if(SceneManager != null && !SceneManager.GrabbedTeddy){
-          GameObject.DeleteFlag = true;
+    _otherImage = Images.get(pOtherImageName);
+    
+  }
+  @Override
+  void onAdd()
+  {
+    if(SceneManager.GrabbedTeddy)
+    {
+      GameObject.GetComponent(ImageRenderer.class).Image = _otherImage;        
     }
   }
+
 }

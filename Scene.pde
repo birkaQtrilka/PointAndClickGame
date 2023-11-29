@@ -50,7 +50,17 @@ public abstract class Scene extends State<SceneName>
   }
   
 }
-
+public class CutScene extends Scene
+{
+  public CutScene(SceneName pKey, StateManager pContext, GameObject... pObjects)
+  {
+    super(pKey, pContext, pObjects);
+  }
+  public SceneName getNextState()
+  { 
+    return StateKey;
+  }
+}
 
 
 public class MenuScene extends Scene
@@ -107,7 +117,7 @@ public class ParkScene extends Scene
 }
 public class MiniGameScene extends Scene
 {
-public MiniGameScene(SceneName pKey, StateManager pContext, GameObject... pObjects)
+  public MiniGameScene(SceneName pKey, StateManager pContext, GameObject... pObjects)
   {
     super(pKey, pContext, pObjects);
   }

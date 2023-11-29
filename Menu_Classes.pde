@@ -1,57 +1,40 @@
 //Menu Scene ===Start====
-class MenuNextLevel1 extends Component
-{@Override 
-  void update()
+class LockDelete extends Component
+{
+  int _level;
+  public LockDelete(int pLevel)
   {
-    if(SceneManager != null && SceneManager.CurrentFinishedLvls >0){
-       GameObject.DeleteFlag = true;
-    }
+    _level = pLevel;
   }
-}
-class MenuNextLevel2 extends Component
-{@Override 
-  void update()
+  
+  @Override
+  void onAdd()
   {
-    if(SceneManager != null && SceneManager.CurrentFinishedLvls > 1){
-       GameObject.DeleteFlag = true;
-    }
-  }
-}
-
-public class ToyBox extends Interactable 
-{ 
-  public void interact()
-  {
-     SceneManager.TransitionToState(SceneName.ChildhoodRoom);
-  }
-}
-public class BaseBall extends Interactable 
-{     
-  public void interact()
-  {
-  if(SceneManager.CurrentFinishedLvls > 0)
+    println("add");
+    if(SceneManager != null && SceneManager.CurrentFinishedLvls > _level)
     {
-      SceneManager.TransitionToState(SceneName.Park);
+      GameObject.DeleteFlag = true;
+    }
+  }
+
+}
+public class LevelButton extends Interactable
+{
+  SceneName _sceneToTransition;
+  int _level;
+  public LevelButton(SceneName pSceneName, int pLevel)
+  {
+     _sceneToTransition = pSceneName; 
+     _level = pLevel;
+  }
+  public void interact()
+  {
+    if(SceneManager.CurrentFinishedLvls > _level)
+    {
+      SceneManager.TransitionToState(_sceneToTransition);
+
     }else{
       println("nah uh uh, finish level 1 first");
     }
-    //SceneManager.TransitionToState(SceneName.Park);
-  }
-}
-
-public class Drinks extends Interactable 
-{ 
-  public void interact()
-  {  
-    if(SceneManager.CurrentFinishedLvls > 1)
-    {
-      println("Yes, Level 3");
-     //SceneManager.TransitionToState(SceneName.);
-    }else{
-      println("nah uh uh, finish level 2 first");
-      //NO GOOFIN AROUND IN MY CODE BASE! >:( 
-      //It's endangering my reputation of a lvl 1000 programm baller
-    }
-     //SceneManager.TransitionToState(SceneName.);
   }
 }

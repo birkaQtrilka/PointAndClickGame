@@ -20,17 +20,19 @@ public class CorrectAnswer extends Interactable
       // DIARIES === 
 public class Diary extends Interactable  
 {
-  public Diary(String pHalfFullImgName, String pFullImgName, SceneName pNextScene)
+  public Diary(String pHalfFullImgName, String pFullImgName, SceneName pNextScene, int pLevel)
   {
     _halfFull = Images.get(pHalfFullImgName);
     _full = Images.get(pFullImgName);
     _nextScene = pNextScene;
+    _level = pLevel;
   }
   SceneName _nextScene;
   PImage _halfFull;
   PImage _full;
   ImageRenderer _renderer;
   boolean _secondPhase;
+  int _level;
   boolean waitOneFrame;
   ArrayList<GameObject> _sceneObjects;
   
@@ -56,8 +58,21 @@ public class Diary extends Interactable
     
     if(_secondPhase)
     {
-      SceneManager.CurrentFinishedLvls++;
+      if(SceneManager.CurrentFinishedLvls < _level)
+        SceneManager.CurrentFinishedLvls++;
+      
+      //reset
+      _secondPhase = false;
+      waitOneFrame = false;
+      _renderer.Image = _halfFull;
+      for(var o : _sceneObjects)
+      {
+        if(o != GameObject)
+          o.Active = false;
+      }
+      
       SceneManager.TransitionToState(_nextScene);
+
     }
     else
     {
@@ -94,25 +109,40 @@ public class DiaryMenu extends Interactable
      //start dialogue
   }
 }
-      
 
-      //Scene 1 ===== CHILDHOOD ROOM =====
-public class Teddy extends Interactable  
+//Scene 1 ===== CHILDHOOD ROOM =====
+
+public class Transition extends Interactable
 {
-  public void interact()
+  boolean _isBadChoice;
+  boolean choiceMade;
+  public Transition(boolean pBadChoice)
   {
-     
-     SceneManager.GrabbedTeddy = true;
-     SceneManager.GetObjectInScene("diary").GetComponent(Diary.class).InitiateSecondPhase();
+    _isBadChoice = pBadChoice;
   }
-}
-public class Door extends Interactable 
-{
   public void interact()
   {   
+    if(!choiceMade && _isBadChoice){
+         EvilScore++;
+      choiceMade = true;    
+    }
      SceneManager.GetObjectInScene("diary").GetComponent(Diary.class).InitiateSecondPhase();
   }
 }
+
+public class Teddy extends Transition  
+{
+  public Teddy(boolean pBadChoice)
+  {
+    super(pBadChoice);
+  }
+  public void interact()
+  {
+    super.interact();
+    SceneManager.GrabbedTeddy = true;
+  }
+}
+
 public class LoreItem extends Interactable
 {
   String Content;
@@ -148,15 +178,5 @@ public class LoreItem extends Interactable
       _playerText.enabled = false;
       _alreadyDisabled = true;
     }
-  }
-}
-//Scene 2 ===== Park =====  Bench
-
-public class Bench extends Interactable 
-{
-  public void interact()
-  {    //<>//
-     SceneManager.GetObjectInScene("diary").GetComponent(Diary.class).InitiateSecondPhase(); //<>//
-
   }
 }
