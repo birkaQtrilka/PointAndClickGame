@@ -20,6 +20,9 @@ public class TextHover extends Component
   @Override
   public void update()
   {
+    if(_collider == null)
+        _collider = GameObject.GetComponent(Shape.class);
+
     if(_collider.IsColliding(MousePos))
     {
       _text.enabled = true;

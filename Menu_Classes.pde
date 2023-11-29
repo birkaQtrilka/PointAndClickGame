@@ -10,7 +10,6 @@ class LockDelete extends Component
   @Override
   void onAdd()
   {
-    println("add");
     if(SceneManager != null && SceneManager.CurrentFinishedLvls > _level)
     {
       GameObject.DeleteFlag = true;
@@ -32,8 +31,9 @@ public class LevelButton extends Interactable
     if(SceneManager.CurrentFinishedLvls > _level)
     {
       SceneManager.TransitionToState(_sceneToTransition);
-
-    }else{
+    }
+    else
+    {
       println("nah uh uh, finish level 1 first");
     }
   }

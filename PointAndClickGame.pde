@@ -22,11 +22,12 @@ public SceneManager SceneManager;
 public static PVector ZERO = new PVector(0,0);
 public static PVector MousePos = new PVector();
 public static int EvilScore = 0;
+public ImageLoader ImageLoader;
 void setup() {
   size (1920/2,1080/2);
-  var imageLoader = new ImageLoader(dataPath(" "));
-  Images = imageLoader.LoadAndGetImages();
-  SpriteSheets = imageLoader.LoadAndGetSpriteSheets();
+  ImageLoader = new ImageLoader(dataPath(" "));
+  Images = ImageLoader.LoadAndGetImages();
+  SpriteSheets = ImageLoader.LoadAndGetSpriteSheets();
   AudioLoader audioLoader = new AudioLoader(this, dataPath(""));
   Audios = audioLoader.LoadAndGetAudio();
   Input.initialize(this);

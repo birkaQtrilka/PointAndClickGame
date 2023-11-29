@@ -22,14 +22,15 @@ public class AnimationController extends StateManager<AnimationName>//another st
   public AnimationController(AnimationName pEntryState)
   {
     super(pEntryState);
-
+    PImage[] jumpscareFrames = ImageLoader.createSpriteArray("bush scene 1.png","bush scene 2.png","bush scene 3.png");
     States = Map.of(
       AnimationName.ToddlerWalk, new WalkingAnimation(AnimationName.ToddlerWalk,this, SpriteSheets.get("toddlerWalk_6_1_ss.png"), true, 6, AnimationName.ToddlerIdle),
       AnimationName.ToddlerIdle, new IdleAnimation(AnimationName.ToddlerIdle, this, SpriteSheets.get("toddlerWalk_6_1_ss.png"), true, 6, Images.get("toddlerStanding.png"), AnimationName.ToddlerWalk),
       AnimationName.ChildWalk, new IdleAnimation(AnimationName.ChildWalk, this, SpriteSheets.get("SashaChildWalking_8_1_ss.png"), true, 6, Images.get("childStanding.png"),AnimationName.ChildIdle),
       AnimationName.ChildIdle, new WalkingAnimation(AnimationName.ChildIdle, this, SpriteSheets.get("SashaChildWalking_8_1_ss.png"), true, 6,AnimationName.ChildWalk),
       AnimationName.TeenWalk, new IdleAnimation(AnimationName.TeenWalk, this, SpriteSheets.get("SashaChildWalking_8_1_ss.png"), true, 6, Images.get("childStanding.png"),AnimationName.TeenIdle),
-      AnimationName.TeenIdle, new WalkingAnimation(AnimationName.TeenIdle, this, SpriteSheets.get("SashaChildWalking_8_1_ss.png"), true, 6,AnimationName.TeenWalk)
+      AnimationName.TeenIdle, new WalkingAnimation(AnimationName.TeenIdle, this, SpriteSheets.get("SashaChildWalking_8_1_ss.png"), true, 6,AnimationName.TeenWalk),
+      AnimationName.ArmJumpScare, new Cutscene(AnimationName.ArmJumpScare, this, jumpscareFrames, false, 6)
     );//create class cutscene that inherits from animation 
     
   }
@@ -91,7 +92,7 @@ public abstract class Animation extends State<AnimationName>
      {
        context.ImageRenderer.Image = spriteSheet[_spriteIndex++];
        _nextTime += _frameInterval;
-     } else if(!_looping)//maybe make a sepparate looping animation class
+     } else if(!_looping)
      {
          context.ImageRenderer.Image = spriteSheet[_spriteIndex];
         if(_spriteIndex < spriteSheet.length)
@@ -102,6 +103,18 @@ public abstract class Animation extends State<AnimationName>
 
 
 
+public class Cutscene extends Animation
+{
+  public Cutscene(AnimationName pKey,StateManager pContext, PImage[] pSpriteSheet, boolean pIsLooping, int pFramesPerSecond)
+  {
+    super(pKey, pContext, pSpriteSheet, pIsLooping, pFramesPerSecond);
+  }
+  public AnimationName getNextState()
+  {
+      return StateKey;
+  }
+  @Override void onExit(){}
+}
 
 
 

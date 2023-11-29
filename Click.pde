@@ -10,7 +10,9 @@ public class Button extends Component
 
   public void update()
   { 
-  
+    //if(_collider == null)
+      //    _collider = GameObject.GetComponent(Shape.class);
+
      if(Input.mousePressedThisFrame() && _collider.IsColliding(MousePos))
      {
        var interactable = GameObject.GetComponent(Interactable.class);
@@ -18,5 +20,4 @@ public class Button extends Component
        interactable.interact();
      }
   }
-  //on remove unbind
 }

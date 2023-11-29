@@ -1,7 +1,8 @@
-public abstract class Scene extends State<SceneName>
+public class Scene extends State<SceneName>
 {
   private ArrayList<GameObject> _objects = new ArrayList<GameObject>();
   SceneManager _context;
+  boolean changingScene;
   public Scene(SceneName pKey, StateManager pContext, GameObject... pObjects)//initialize and enter objects
   {
     super(pKey, pContext);
@@ -25,6 +26,7 @@ public abstract class Scene extends State<SceneName>
         _objects.remove(i--);
       }else
       {
+        if(!changingScene)
           obj.update();      
       }
     }
@@ -34,97 +36,25 @@ public abstract class Scene extends State<SceneName>
   @Override
   public void onEnter()
   {
+    changingScene = true;
     for(var o : _objects)
     {
       o.onStart();
     }
-
+    changingScene = false;
   }
   @Override
   public void onExit()
   {
+    changingScene = true;
     for(var o : _objects)
     {
       o.onExit();
     }
-  }
-  
-}
-public class CutScene extends Scene
-{
-  public CutScene(SceneName pKey, StateManager pContext, GameObject... pObjects)
-  {
-    super(pKey, pContext, pObjects);
+    changingScene = false;
   }
   public SceneName getNextState()
-  { 
-    return StateKey;
-  }
-}
-
-
-public class MenuScene extends Scene
-{
-  public MenuScene(SceneName pKey, StateManager pContext, GameObject... pObjects)
   {
-    super(pKey, pContext, pObjects);
-  }
-  public SceneName getNextState()
-  { 
-    if(_context.GrabbedTeddy)
-          return SceneName.Menu;
-
-    return SceneName.Menu;
-  }
-}
-
-public class ChildhoodScene extends Scene
-{
-  public ChildhoodScene(SceneName pKey, StateManager pContext, GameObject... pObjects)
-  {
-    super(pKey, pContext, pObjects);
-  }
-  public SceneName getNextState()
-  { 
-    return SceneName.ChildhoodRoom;
-  }
-}
-public class PartyScene extends Scene
-{
-  public PartyScene(SceneName pKey, StateManager pContext, GameObject... pObjects)
-  {
-    super(pKey, pContext, pObjects);
-  }
-  public SceneName getNextState()
-  { 
-    //NOT IMPLEMENTED
-
-    return SceneName.Party;
-  }
-}
-public class ParkScene extends Scene
-{
-  public ParkScene(SceneName pKey, StateManager pContext, GameObject... pObjects)
-  {
-    super(pKey, pContext, pObjects);
-  }
-  public SceneName getNextState()
-  { 
-     //NOT IMPLEMENTED
-
-    return SceneName.Park;
-  }
-}
-public class MiniGameScene extends Scene
-{
-  public MiniGameScene(SceneName pKey, StateManager pContext, GameObject... pObjects)
-  {
-    super(pKey, pContext, pObjects);
-  }
-  public SceneName getNextState()
-  { 
-     //NOT IMPLEMENTED
-
     return StateKey;
   }
 }

@@ -40,6 +40,7 @@ public class GameObject
     Name = pName;
     Layer = pLayer;
     _components.add(new Transform(this, pPosition));
+    
   }
   public GameObject(String pName, int pLayer, PVector pPosition, Component... pComponents)
   {

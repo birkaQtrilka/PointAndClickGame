@@ -173,7 +173,7 @@ public class LoreItem extends Interactable
   @Override
   public void update()
   {
-    if(_alreadyDisabled && millis() - _currStayTime < _stayTime)
+    if(!_alreadyDisabled && millis() - _currStayTime > _stayTime)
     {
       _playerText.enabled = false;
       _alreadyDisabled = true;

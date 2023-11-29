@@ -31,6 +31,15 @@ public class ImageLoader
     } 
     return images;
   }
+  public PImage[] createSpriteArray(String... imageNames)
+  {
+    PImage[] images = new PImage[imageNames.length];
+    for(int i = 0; i< imageNames.length; i++)
+    {
+      images[i] = Images.get(imageNames[i]);
+    }
+    return images;
+  }
   public HashMap<String, PImage[]> LoadAndGetSpriteSheets()
   {
     HashMap<String, PImage[]> map = new HashMap<String, PImage[]>();
