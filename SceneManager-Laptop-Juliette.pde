@@ -113,7 +113,6 @@ public class SceneManager extends StateManager<SceneName>
           //Diary 1
           new GameObject("diary", 4, new PVector(width/2, height/2), new PVector(0.5f, 0.5f),
             new ImageRenderer("line-drawing-cartoon-open-diary-vector.jpg"),
-            new AudioPlay(Audios.get("pageturn-102978.mp3"), 1,false),
             new Button(),
             new Rectangle(new PVector(width-10,height-10),true),//debug true
             new Diary("diary_1_before_choosing.png","diary_1_pick_teddy.png","diary_1_pick_mom.png", SceneName.Menu,1)
@@ -127,11 +126,6 @@ public class SceneManager extends StateManager<SceneName>
             new ImageRenderer("outsidedefi.png"),
             new TeddyChoice("outsidedefiWithBear.png")
         ),
-        //player follow
-        new GameObject("playerFollow", 1,new PVector(100,height/3.7f), new PVector(.4f,.4f),
-            new ImageRenderer("speechBubble.png", false),
-            new PlayerFollow(new PVector(0,-150))
-          ),
         //player
         new GameObject("player",/*pLayer*/ 3,/*position*/new PVector(width/2,height/1.9f), /*scale*/new PVector(0.3f,0.3f),  
             /*coponents*/
@@ -145,16 +139,18 @@ public class SceneManager extends StateManager<SceneName>
         ),
         //friends text blob
         new GameObject("friends text window", 1,new PVector(100,height/3.7f), new PVector(.3f,.3f),
-            new ImageRenderer("somebody_gon_get_err.png")
+            new ImageRenderer("speechBubble.png"),
+            new Text("Hello", 40, 2, 0)
           ),
         //woods
-          /*new GameObject("woods", 1,new PVector(width/2.55f,height/2.2f), new PVector(0.7f,0.7f),  
-            new LoreItem("",2000),
+          new GameObject("woods",/*layer*/ 1,/*position*/new PVector(width/2.55f,height/2.2f), /*scale*/new PVector(0.7f,0.7f),  
+            /*components*/
+            new LoreItem("I always thought these woods were creepy",2000),
             new TextHover(),
             new Text("Examine\nV",20,3, new PVector(0,-60)),//textHover
             new Rectangle(new PVector(100,100),true),//debug true
             new PlayerCollisionChecker()
-          ),*/
+          ),
          //goodChoice GOING FOR THE BALL SOLO
           new GameObject("ballCoice", 2,new PVector(width/1.26f,height/1.9f),  
             new TextHover(),
@@ -166,7 +162,7 @@ public class SceneManager extends StateManager<SceneName>
           //badChoice FAKING INJURY
           new GameObject("firendsChoice", 2,new PVector(180,height/2f), new PVector(.4f,.4f),  
             new Transition(true),
-            new TextHover(),//do an image hover
+            new TextHover(),
             new Text("Fake your injury\nV",20,3, new PVector(0,-165)),
             new Rectangle(new PVector(300,300),true),//debug true
             new PlayerCollisionChecker(),
@@ -175,19 +171,13 @@ public class SceneManager extends StateManager<SceneName>
           //diary
         new GameObject("diary", 4, new PVector(width/2, height/2), new PVector(0.5, 0.5),
           new ImageRenderer("line-drawing-cartoon-open-diary-vector.jpg"),
-          new AudioPlay(Audios.get("pageturn-102978.mp3"), 1,false),
           new Button(),
           new Rectangle(new PVector(width-10,height-10),true),//debug true
-          new Diary("diary_2_before_choosing.png","diary_2_bad_option.png", "diary_2_good_option.png", SceneName.Menu, 2)
+          new Diary("diary template.png","diary template.png", "", SceneName.Menu, 2)
         ),
-
-        //CutScene
         new GameObject("Cutscene", 4, new PVector(width/2, height/2), new PVector(.5f,.5f),
           new AnimationController(AnimationName.ArmJumpScare),
-          new ImageRenderer("")),
-       //Audio Cutscene
-         new GameObject("Audio", 4, new PVector(width/2, height/2), new PVector(.5f,.5f),
-          new AudioPlay(Audios.get("girl-scream-83987.mp3"), -25,false)
+          new ImageRenderer("")
           //transition after cutscene to next diary
         )
       ),
@@ -199,14 +189,10 @@ public class SceneManager extends StateManager<SceneName>
         new GameObject("bg",0,new PVector(width/2,height/2),new PVector(0.5f,0.5f),
             new ImageRenderer("partyroom.png")
         ),
-        new GameObject("playerFollow", 1,new PVector(100,height/3.7f), new PVector(.4f,.4f),
-            new ImageRenderer("speechBubble.png", false),
-            new PlayerFollow(new PVector(0,-150))
-        ),
         //player
         new GameObject("player",/*pLayer*/ 3, new PVector(width/1.3f,height/1.7f), /*scale*/new PVector(0.25f,0.25f),  
             new Player(),
-            new AnimationController(AnimationName.TeenIdle),
+            new AnimationController(AnimationName.ChildIdle),
             new ImageRenderer(""),
             new PlayerMovement(10),
             new Grab(),
@@ -214,30 +200,26 @@ public class SceneManager extends StateManager<SceneName>
         ),
         //teens
         new GameObject("friends",1,new PVector(width/5,height/2),new PVector(0.25f,0.25f),
-            new ImageRenderer("olderFriends.png")
+            new ImageRenderer("olderFriends.png"),
+            new PartyFriends(false, 2500),
+            new Text("Yo, we're the good guys", 20,3, new PVector(0,-130))
         ),
         new GameObject("friends text hover",1,new PVector(width/5,height/2),new PVector(0.25f,0.25f),
             new Rectangle(new PVector(200,300),true),
-            new TextHover(),//image hover
+            new TextHover(),
             new Text("Hang out with your friends\nV", 20,3, new PVector(0,-130)),
             new Transition(false),
             new PlayerCollisionChecker()
         ),
         
         new GameObject("badGuys",1,new PVector(width/1.1,height/1.8f),new PVector(0.25f,0.25f),
-            new ImageRenderer("olderFriends.png")
-        ),
-        new GameObject("badGuys bubble1",1,new PVector(width/1.1,height/2.5f),new PVector(0.25f,0.25f),
-            new ImageRenderer("come_drink_sum.png"),
-            new ImageDisappear(2500)
-        ),
-        new GameObject("friends bubble 2",1,new PVector(width/5,height/2),new PVector(0.25f,0.25f),
-            new ImageRenderer("drink_da_beer.png"),
-            new ImageDisappear(2000)  
+            new ImageRenderer("olderFriends.png"),
+            new PartyFriends(false, 2500),
+            new Text("Yo, we're the bad guys",20,3, new PVector(0,-120))
         ),
         new GameObject("badGuys text hover",1,new PVector(width/1.1,height/2),new PVector(0.25f,0.25f),
             new Rectangle(new PVector(230,300),true),
-            new TextHover(),//image hover
+            new TextHover(),
             new Text("Go drink a bear\nV", 20,3, new PVector(0,-120)),
             new PlayerCollisionChecker(),
             new DrinkBear(Images.get("partyroom_dark.png"), 3000)
@@ -245,10 +227,9 @@ public class SceneManager extends StateManager<SceneName>
         //diary
         new GameObject("diary", 4, new PVector(width/2, height/2), new PVector(0.5, 0.5),
           new ImageRenderer("line-drawing-cartoon-open-diary-vector.jpg"),
-          new AudioPlay(Audios.get("pageturn-102978.mp3"), 1,false),
           new Button(),
           new Rectangle(new PVector(width-10,height-10),true),
-          new Diary("diary_3_before_choosing 2.png","diary_3_bad_option.png", "diary_3_good_option.png", SceneName.Newspaper, 3)
+          new Diary("diary template.png","diary template.png", "", SceneName.Newspaper, 3)
         )
 
         

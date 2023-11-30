@@ -18,12 +18,10 @@ public class AudioPlay extends Component
   @Override
   public void update()
   {
-    //not to elegant but it works XD
-    //if (Audio!= null) {
       Audio.setGain(ValueVolume);
-      //Audio.printControls();
       if(!Loop){
-      Audio.play(); 
+        Audio.play();
+ 
       }
       else if(Loop)
       {
@@ -32,7 +30,10 @@ public class AudioPlay extends Component
           {
              Audio.rewind();
           }
-      //}
     }
   }
+  void onExit()
+   {   
+     Audio.rewind();
+   }
 }

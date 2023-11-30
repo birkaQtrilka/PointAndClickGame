@@ -64,10 +64,10 @@ public class Rectangle extends Shape implements IRender
     }
     else
     stroke(#9B452D);
-    strokeWeight(10);
+    strokeWeight(3);
     noFill();
     rectMode(CENTER);
-    rect(worldPos.x,worldPos.y,worldSize.x,worldSize.y);
+    //rect(worldPos.x,worldPos.y,worldSize.x,worldSize.y);
   }
 }
 
