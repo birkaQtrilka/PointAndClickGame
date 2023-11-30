@@ -62,7 +62,7 @@ public class Diary extends Interactable
     {
       if(SceneManager.CurrentFinishedLvls < _level)
         SceneManager.CurrentFinishedLvls++;
-
+      
       //reset
       _secondPhase = false;
       waitOneFrame = false;
@@ -72,20 +72,18 @@ public class Diary extends Interactable
         if(o != GameObject)
           o.Active = false;
       }
+      
       SceneManager.TransitionToState(_nextScene);
 
     }
     else
     {
-      //first phase
       for(var o : _sceneObjects)
       {
         if(o != GameObject)
           o.Active = true;
       }
-      //soundManager.play(sound);
       GameObject.Active = false;    
-      
     }
 
   }
@@ -101,9 +99,7 @@ public class Diary extends Interactable
       _renderer.Image = _fullBad;
     else
       _renderer.Image = _fullGood;
-     
-    //second phase
-    //soundmanage.play(sound)
+      
      
      _secondPhase = true;
      GameObject.Active = true;
@@ -129,30 +125,24 @@ public class JumpScareHandler extends Interactable
   //boolean choiceMade;
   boolean flag;
   Diary _diary;
-  AudioPlay _audio;
   int timer = 10;
   @Override
   void onAdd()
   {
     _anim = SceneManager.GetObjectInScene("Cutscene").GetComponent(AnimationController.class);
-    _audio = SceneManager.GetObjectInScene("Audio").GetComponent(AudioPlay.class);
     _diary = SceneManager.GetObjectInScene("diary").GetComponent(Diary.class);
     _animRenderer = _anim.GameObject.GetComponent(ImageRenderer.class);
     _anim.enabled = false;
-    _audio.enabled = false;
   }
   @Override
   public void interact()
   {
     _anim.enabled = true;
-     _audio.enabled = true;
-
   }
   @Override
   void onExit()
   {
     _anim.finishedJumpScare = false;
-
     flag = false;
     _animRenderer.Image = null;
     timer = 10;
@@ -170,7 +160,7 @@ public class JumpScareHandler extends Interactable
         
       }*/
       if(!flag)
-      {   
+      {
         _anim.enabled = false;
         _diary.InitiateSecondPhase(false);
         flag = true;
@@ -195,25 +185,25 @@ public class Transition extends Interactable
       choiceMade = true;    
       println("transiton " + EvilScore);
     }
-    
      SceneManager.GetObjectInScene("diary").GetComponent(Diary.class).InitiateSecondPhase(_isBadChoice);
   }
 }
-public class ImageDisappear extends Component
+public class PartyFriends extends Transition
 {
-  ImageRenderer _bubble;
+  Text _text;
   int _sceneStartTime;
   int _timer;
   boolean _alreadyDisabled;
-  public ImageDisappear(int pTextTimer)
+  public PartyFriends(boolean pBadChoice, int pTextTimer)
   {
+    super(pBadChoice);
     _timer = pTextTimer;
   }
   @Override 
   void onAdd()
   {
-    _bubble = GameObject.GetComponent(ImageRenderer.class);
-    _bubble.enabled = true;
+    _text = GameObject.GetComponent(Text.class);
+    _text.enabled = true;
     _sceneStartTime = millis();
   }
   @Override
@@ -221,7 +211,7 @@ public class ImageDisappear extends Component
   {
     if(!_alreadyDisabled && millis() - _sceneStartTime > _timer)
     {
-      _bubble.enabled = false;
+      _text.enabled = false;
       _alreadyDisabled = true;
     }
   }
@@ -358,6 +348,7 @@ public class LoreItem extends Interactable
   @Override
   public void interact()
   {
+    println("interact");
     _playerImg.Image = Content;
     _playerImg.enabled = true;
     _currStayTime = millis();
