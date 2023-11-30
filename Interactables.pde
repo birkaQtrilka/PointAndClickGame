@@ -62,7 +62,7 @@ public class Diary extends Interactable
     {
       if(SceneManager.CurrentFinishedLvls < _level)
         SceneManager.CurrentFinishedLvls++;
-      
+
       //reset
       _secondPhase = false;
       waitOneFrame = false;
@@ -72,17 +72,18 @@ public class Diary extends Interactable
         if(o != GameObject)
           o.Active = false;
       }
-      
       SceneManager.TransitionToState(_nextScene);
 
     }
     else
     {
+      //first phase
       for(var o : _sceneObjects)
       {
         if(o != GameObject)
           o.Active = true;
       }
+      //soundManager.play(sound);
       GameObject.Active = false;    
     }
 
@@ -99,7 +100,9 @@ public class Diary extends Interactable
       _renderer.Image = _fullBad;
     else
       _renderer.Image = _fullGood;
-      
+     
+    //second phase
+    //soundmanage.play(sound)
      
      _secondPhase = true;
      GameObject.Active = true;
@@ -347,7 +350,6 @@ public class LoreItem extends Interactable
   @Override
   public void interact()
   {
-    println("interact");
     _playerImg.Image = Content;
     _playerImg.enabled = true;
     _currStayTime = millis();

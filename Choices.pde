@@ -27,7 +27,7 @@ class EvilChoice extends Component
   @Override
   void onAdd()
   {
-    if(EvilScore > 2)
+    if(EvilScore > 1)
     {
       GameObject.GetComponent(ImageRenderer.class).Image = _otherImage;        
     }
