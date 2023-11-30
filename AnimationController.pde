@@ -114,12 +114,13 @@ public class Cutscene extends Animation
       return StateKey;
   }
   boolean _startedAnim;
+  int _currFrame;
   @Override
   void onEnter()
   {
     _startedAnim = false;
+    _currFrame = 0;
   }
-  int currFrame;
   @Override
   public void update()
   {
@@ -135,7 +136,7 @@ public class Cutscene extends Animation
      {
        context.ImageRenderer.Image = spriteSheet[_spriteIndex++];
        _nextTime += _frameInterval;
-       if(currFrame++ == 2)
+       if(_currFrame++ == 2)
        {
          var audio = Audios.get("girl-scream-83987.mp3");
          audio.setGain(-20);

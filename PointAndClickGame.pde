@@ -36,7 +36,7 @@ void setup() {
   AudioLoader audioLoader = new AudioLoader(this, dataPath(""));
   Audios = audioLoader.LoadAndGetAudio();
   Input.initialize(this);
-  SceneManager = new SceneManager(SceneName.Park);
+  SceneManager = new SceneManager(SceneName.Menu);
   SceneManager.onAdd();
   
   Background = new AudioPlay(Audios.get("Background_music.wav"), -30,true);
