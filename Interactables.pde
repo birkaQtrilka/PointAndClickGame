@@ -188,22 +188,21 @@ public class Transition extends Interactable
      SceneManager.GetObjectInScene("diary").GetComponent(Diary.class).InitiateSecondPhase(_isBadChoice);
   }
 }
-public class PartyFriends extends Transition
+public class ImageDisappear extends Component
 {
-  Text _text;
+  ImageRenderer _bubble;
   int _sceneStartTime;
   int _timer;
   boolean _alreadyDisabled;
-  public PartyFriends(boolean pBadChoice, int pTextTimer)
+  public ImageDisappear(int pTextTimer)
   {
-    super(pBadChoice);
     _timer = pTextTimer;
   }
   @Override 
   void onAdd()
   {
-    _text = GameObject.GetComponent(Text.class);
-    _text.enabled = true;
+    _bubble = GameObject.GetComponent(ImageRenderer.class);
+    _bubble.enabled = true;
     _sceneStartTime = millis();
   }
   @Override
@@ -211,7 +210,7 @@ public class PartyFriends extends Transition
   {
     if(!_alreadyDisabled && millis() - _sceneStartTime > _timer)
     {
-      _text.enabled = false;
+      _bubble.enabled = false;
       _alreadyDisabled = true;
     }
   }

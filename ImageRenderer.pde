@@ -18,6 +18,13 @@ public class ImageRenderer extends Component implements IRender
     if (imageName != null && imageName != "")
       Image = Images.get(imageName);
   }
+  public ImageRenderer(String imageName, boolean pEnabled)
+  {
+    if (imageName != null && imageName != "")
+      Image = Images.get(imageName);
+    enabled = pEnabled;
+    //GameObject.Active = pEnabled;
+  }
 
   @Override
   public void onAdd()
