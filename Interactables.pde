@@ -20,16 +20,18 @@ public class CorrectAnswer extends Interactable
       // DIARIES === 
 public class Diary extends Interactable  
 {
-  public Diary(String pHalfFullImgName, String pFullImgName, SceneName pNextScene, int pLevel)
+  public Diary(String pHalfFullImgName, String pFullBadImgName, String pFullGoodImgName, SceneName pNextScene, int pLevel)
   {
     _halfFull = Images.get(pHalfFullImgName);
-    _full = Images.get(pFullImgName);
+    _fullBad = Images.get(pFullBadImgName);
+    _fullGood = Images.get(pFullGoodImgName);
     _nextScene = pNextScene;
     _level = pLevel;
   }
   SceneName _nextScene;
   PImage _halfFull;
-  PImage _full;
+  PImage _fullGood;
+  PImage _fullBad;
   ImageRenderer _renderer;
   boolean _secondPhase;
   int _level;
@@ -85,7 +87,7 @@ public class Diary extends Interactable
     }
 
   }
-  public void InitiateSecondPhase()
+  public void InitiateSecondPhase(boolean pIsBadDecision)
   {
     //disabling all objects behing the diary entry
     for(var o : _sceneObjects)
@@ -93,7 +95,12 @@ public class Diary extends Interactable
         if(o != GameObject)
           o.Active = false;
     }
-     _renderer.Image = _full;
+    if(pIsBadDecision)
+      _renderer.Image = _fullBad;
+    else
+      _renderer.Image = _fullGood;
+      
+     
      _secondPhase = true;
      GameObject.Active = true;
      waitOneFrame = true;
@@ -114,13 +121,17 @@ public class DiaryMenu extends Interactable
 public class JumpScareHandler extends Interactable
 {
   AnimationController _anim;
-  boolean choiceMade;
+  ImageRenderer _animRenderer;
+  //boolean choiceMade;
+  boolean flag;
   Diary _diary;
+  int timer = 10;
   @Override
   void onAdd()
   {
     _anim = SceneManager.GetObjectInScene("Cutscene").GetComponent(AnimationController.class);
     _diary = SceneManager.GetObjectInScene("diary").GetComponent(Diary.class);
+    _animRenderer = _anim.GameObject.GetComponent(ImageRenderer.class);
     _anim.enabled = false;
   }
   @Override
@@ -129,18 +140,31 @@ public class JumpScareHandler extends Interactable
     _anim.enabled = true;
   }
   @Override
+  void onExit()
+  {
+    _anim.finishedJumpScare = false;
+    flag = false;
+    _animRenderer.Image = null;
+    timer = 10;
+  }
+  @Override
   public void update()
   {
-    if(_anim.finishedJumpScare)
+    if(_anim.finishedJumpScare && timer-- < 0)
     {
-      if(!choiceMade)
+      timer = -1;
+      /*if(!choiceMade)
       {
         EvilScore++;
         choiceMade = true;    
+        
+      }*/
+      if(!flag)
+      {
         _anim.enabled = false;
+        _diary.InitiateSecondPhase(false);
+        flag = true;
       }
-      _diary.InitiateSecondPhase();
-
     }
   }
 }
@@ -152,13 +176,142 @@ public class Transition extends Interactable
   {
     _isBadChoice = pBadChoice;
   }
+  @Override
   public void interact()
   {   
-    if(!choiceMade && _isBadChoice){
-         EvilScore++;
+    if(!choiceMade && _isBadChoice)
+    {
+      EvilScore++;
       choiceMade = true;    
+      println("transiton " + EvilScore);
     }
-     SceneManager.GetObjectInScene("diary").GetComponent(Diary.class).InitiateSecondPhase();
+     SceneManager.GetObjectInScene("diary").GetComponent(Diary.class).InitiateSecondPhase(_isBadChoice);
+  }
+}
+public class PartyFriends extends Transition
+{
+  Text _text;
+  int _sceneStartTime;
+  int _timer;
+  boolean _alreadyDisabled;
+  public PartyFriends(boolean pBadChoice, int pTextTimer)
+  {
+    super(pBadChoice);
+    _timer = pTextTimer;
+  }
+  @Override 
+  void onAdd()
+  {
+    _text = GameObject.GetComponent(Text.class);
+    _text.enabled = true;
+    _sceneStartTime = millis();
+  }
+  @Override
+  public void update()
+  {
+    if(!_alreadyDisabled && millis() - _sceneStartTime > _timer)
+    {
+      _text.enabled = false;
+      _alreadyDisabled = true;
+    }
+  }
+}
+public class DrinkBear extends Interactable
+{
+  ImageRenderer _bgRenderer;
+  PImage _hallucinatingImage;
+  PImage _origBackground;
+  int _timer;
+  int _interactionStartTime;
+  boolean _alreadyTransitioned;
+  boolean _doTransition;
+  
+  boolean _alreadyChose;
+  
+  ArrayList<GameObject> _disabledObjects = new ArrayList<GameObject>();
+  Diary _diary;
+  public DrinkBear(PImage pHallucinatingImage, int pHallucinationTime)
+  {
+    _hallucinatingImage = pHallucinatingImage;
+    _timer = pHallucinationTime;
+  }
+  
+  @Override
+  void onAdd()
+  {
+     _diary = SceneManager.GetObjectInScene("diary").GetComponent(Diary.class);
+
+  }
+  
+  @Override
+  public void interact()
+  {
+    //disable every object besides player and bg
+    Scene scene = (Scene)SceneManager.CurrentState;
+    
+    for(var c : GameObject._components)
+    {
+      if(c != this) c.enabled = false;
+    }
+    
+    for(var o : scene._objects)
+    {
+      if(!o.Active || o == GameObject) continue;
+      
+      if(o.Name == "diary")
+      {
+        continue;
+      }
+      
+      if(o.Name == "bg" )
+      {
+        if(_bgRenderer == null)
+          _bgRenderer = o.GetComponent(ImageRenderer.class);
+        _origBackground = _bgRenderer.Image;
+        _bgRenderer.Image = _hallucinatingImage;
+        
+        continue;
+      }
+      if(o.Name != "player")
+      {
+        o.Active = false;
+        _disabledObjects.add(o);
+      }
+    }
+    _interactionStartTime = millis();
+    _doTransition = true;
+  }
+  @Override
+  void update()
+  {
+    //after some time, transition to second phase
+    if(_doTransition && !_alreadyTransitioned && millis() - _interactionStartTime > _timer)
+    {
+      _diary.InitiateSecondPhase(true);//is bad choice
+      if(!_alreadyChose)
+      {
+        EvilScore++;
+        _alreadyChose = true;
+      }
+      _alreadyTransitioned = true;
+    }
+  }
+  @Override
+  void onExit()
+  {
+    if(_origBackground != null)
+      _bgRenderer.Image = _origBackground;
+    _alreadyTransitioned = false;
+    _doTransition = false;
+
+    //revert changes
+    for(var o : _disabledObjects)
+      o.Active = true;
+      
+    for(var c : GameObject._components)
+      c.enabled = true;
+      
+    _disabledObjects.clear();
   }
 }
 
@@ -177,26 +330,27 @@ public class Teddy extends Transition
 
 public class LoreItem extends Interactable
 {
-  String Content;
+  PImage Content;
   int _stayTime;
   int _currStayTime;
-  Text _playerText;
+  ImageRenderer _playerImg;
   boolean _alreadyDisabled;
-  public LoreItem(String pTextContent, int pStayTime)
+  public LoreItem(String pImageName, int pStayTime)
   {
-    Content = pTextContent;
+    Content = Images.get(pImageName);
     _stayTime = pStayTime;
   }
   @Override
   public void onAdd()
   {
-    _playerText = SceneManager.GetObjectInScene("player").GetComponent(Text.class);
+    _playerImg = SceneManager.GetObjectInScene("playerFollow").GetComponent(ImageRenderer.class);
   }
   @Override
   public void interact()
   {
-    _playerText.Content = Content;
-    _playerText.enabled = true;
+    println("interact");
+    _playerImg.Image = Content;
+    _playerImg.enabled = true;
     _currStayTime = millis();
     _alreadyDisabled = false;
     //after time, disable text hover
@@ -207,7 +361,7 @@ public class LoreItem extends Interactable
   {
     if(!_alreadyDisabled && millis() - _currStayTime > _stayTime)
     {
-      _playerText.enabled = false;
+      _playerImg.enabled = false;
       _alreadyDisabled = true;
     }
   }

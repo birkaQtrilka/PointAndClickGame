@@ -73,7 +73,7 @@ public abstract class Animation extends State<AnimationName>
    }
    
    public abstract AnimationName getNextState();
-
+   
    @Override
    public void onEnter()
    {
@@ -114,7 +114,11 @@ public class Cutscene extends Animation
       return StateKey;
   }
   boolean _startedAnim;
-
+  @Override
+  void onEnter()
+  {
+    _startedAnim = false;
+  }
   @Override
   public void update()
   {

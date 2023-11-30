@@ -9,7 +9,30 @@ public class Player extends Component
   }
   
 }
-
+public class PlayerFollow extends Component
+{
+  PVector _playerPos;
+  PVector _myPos;
+  PVector _offset;
+  public PlayerFollow(PVector pOffset)
+  {
+    _offset = pOffset;
+  }
+  @Override
+  void onAdd()
+  {
+    _playerPos = SceneManager.GetObjectInScene("player").getTransform().Position;
+    _myPos = GameObject.getTransform().Position;
+    _myPos.y = _playerPos.y + _offset.y;
+  }
+  
+  @Override
+  void update()
+  {
+    _myPos.x = _playerPos.x + _offset.x;
+    
+  }
+}
 public class PlayerMovement extends Component
 {
   float _destinationPoint;

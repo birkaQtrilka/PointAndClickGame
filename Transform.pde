@@ -21,18 +21,18 @@ public class Transform extends Component
     Position = pPosition;
     Scale = pScale;
   }
-  public Transform(PVector pPosition, GameObject... pChildren)
+ /* public Transform(PVector pPosition, PVector pScale, Component[] pComponents, GameObject... pChildren)
   {
     super(null);
     Position = pPosition;
-    Scale = new PVector(1,1);
+    Scale = pScale;
     for(var c : pChildren)
     {
       var t = c.getTransform();
       _children.add(t);
       t.parent = this;
     }
-  }
+  }*/
   
   
   

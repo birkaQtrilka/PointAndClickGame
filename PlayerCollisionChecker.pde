@@ -16,7 +16,7 @@ public class PlayerCollisionChecker extends Component//for rectangles only
 
     _playerPos = _playerCollider.worldPos;
   }
-  @Override//maybe change this when events are implemented
+  @Override
   public void update()
   {
     var dir = _playerPos.x - _myPosition.x;

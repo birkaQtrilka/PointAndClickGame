@@ -16,3 +16,21 @@ class TeddyChoice extends Component
   }
 
 }
+class EvilChoice extends Component
+{
+  PImage _otherImage;
+  public EvilChoice(String pOtherImageName)
+  {
+    _otherImage = Images.get(pOtherImageName);
+    
+  }
+  @Override
+  void onAdd()
+  {
+    if(EvilScore > 2)
+    {
+      GameObject.GetComponent(ImageRenderer.class).Image = _otherImage;        
+    }
+  }
+
+}
