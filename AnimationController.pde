@@ -30,7 +30,7 @@ public class AnimationController extends StateManager<AnimationName>//another st
       AnimationName.ChildIdle, new WalkingAnimation(AnimationName.ChildIdle, this, SpriteSheets.get("SashaChildWalking_8_1_ss.png"), true, 6,AnimationName.ChildWalk),
       AnimationName.TeenWalk, new IdleAnimation(AnimationName.TeenWalk, this, SpriteSheets.get("teenAnimation_8_1_ss.png"), true, 6, Images.get("sasha teen standing.png"),AnimationName.TeenIdle),
       AnimationName.TeenIdle, new WalkingAnimation(AnimationName.TeenIdle, this, SpriteSheets.get("teenAnimation_8_1_ss.png"), true, 6,AnimationName.TeenWalk),
-      AnimationName.ArmJumpScare, new Cutscene(AnimationName.ArmJumpScare, this, jumpscareFrames, false, 3)
+      AnimationName.ArmJumpScare, new Cutscene(AnimationName.ArmJumpScare, this, jumpscareFrames, false, 2)
     );//create class cutscene that inherits from animation 
     
   }

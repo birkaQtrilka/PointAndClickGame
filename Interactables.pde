@@ -135,7 +135,7 @@ public class JumpScareHandler extends Interactable
   boolean flag;
   Diary _diary;
   AudioPlay _audio;
-  int timer = 15;
+  int timer = 40;
   @Override
   void onAdd()
   {
