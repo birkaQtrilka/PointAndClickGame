@@ -28,8 +28,8 @@ public class AnimationController extends StateManager<AnimationName>//another st
       AnimationName.ToddlerIdle, new IdleAnimation(AnimationName.ToddlerIdle, this, SpriteSheets.get("toddlerWalk_6_1_ss.png"), true, 6, Images.get("toddlerStanding.png"), AnimationName.ToddlerWalk),
       AnimationName.ChildWalk, new IdleAnimation(AnimationName.ChildWalk, this, SpriteSheets.get("SashaChildWalking_8_1_ss.png"), true, 6, Images.get("childStanding.png"),AnimationName.ChildIdle),
       AnimationName.ChildIdle, new WalkingAnimation(AnimationName.ChildIdle, this, SpriteSheets.get("SashaChildWalking_8_1_ss.png"), true, 6,AnimationName.ChildWalk),
-      AnimationName.TeenWalk, new IdleAnimation(AnimationName.TeenWalk, this, SpriteSheets.get("SashaChildWalking_8_1_ss.png"), true, 6, Images.get("childStanding.png"),AnimationName.TeenIdle),
-      AnimationName.TeenIdle, new WalkingAnimation(AnimationName.TeenIdle, this, SpriteSheets.get("SashaChildWalking_8_1_ss.png"), true, 6,AnimationName.TeenWalk),
+      AnimationName.TeenWalk, new IdleAnimation(AnimationName.TeenWalk, this, SpriteSheets.get("teenAnimation_8_1_ss.png"), true, 6, Images.get("sasha teen standing.png"),AnimationName.TeenIdle),
+      AnimationName.TeenIdle, new WalkingAnimation(AnimationName.TeenIdle, this, SpriteSheets.get("teenAnimation_8_1_ss.png"), true, 6,AnimationName.TeenWalk),
       AnimationName.ArmJumpScare, new Cutscene(AnimationName.ArmJumpScare, this, jumpscareFrames, false, 3)
     );//create class cutscene that inherits from animation 
     
@@ -119,6 +119,7 @@ public class Cutscene extends Animation
   {
     _startedAnim = false;
   }
+  int currFrame;
   @Override
   public void update()
   {
@@ -127,12 +128,20 @@ public class Cutscene extends Animation
        _spriteIndex = 0;
        _animationEnterTime = millis();
        _nextTime = 0;
+
        _startedAnim = true;
      }
      if(millis() - _animationEnterTime > _nextTime && _spriteIndex < spriteSheet.length)
      {
        context.ImageRenderer.Image = spriteSheet[_spriteIndex++];
        _nextTime += _frameInterval;
+       if(currFrame++ == 2)
+       {
+         var audio = Audios.get("girl-scream-83987.mp3");
+         audio.setGain(-20);
+         audio.play();
+         audio.rewind();
+       }
        if(_spriteIndex == spriteSheet.length)
          context.finishedJumpScare = true;
      } 

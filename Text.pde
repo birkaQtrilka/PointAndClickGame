@@ -10,6 +10,7 @@ public class Text extends Component implements IRender
   boolean _personalLayer;
   public String Content;
   Transform _transform;
+  boolean _withOutline = true;
   
   public Text(GameObject pGameObject, String pContent, int pTextSize )
   {
@@ -76,14 +77,30 @@ public class Text extends Component implements IRender
   public void render()
   {
     if(Content == null) return;
-    var worldPos = _transform.WorldPos;
+    var worldPos = _transform.WorldPos; //<>//
     
     push();
     fill(_colr);
     textAlign(alignment1,alignment2);
     rectMode(rectMode);
     textSize(textSize);
-    text(Content, worldPos.x+ _offset.x, worldPos.y +_offset.y);
+    if(_withOutline)
+    {
+      fill(190);
+      var xPos = worldPos.x + _offset.x;
+      var yPos = worldPos.y +_offset.y;
+      for(int x = -1; x < 2; x++){
+        for(int y = -1; y < 2; y++){
+          text(Content, xPos+x,yPos+y);
+        }
+        text(Content, xPos + x * 1.3f, yPos);
+        text(Content, xPos, yPos + x * 1.3f);
+      }
+      fill(0);
+      text(Content, xPos,yPos);
+    }
+    else
+      text(Content, worldPos.x + _offset.x, worldPos.y +_offset.y);
     pop();
   }
 }

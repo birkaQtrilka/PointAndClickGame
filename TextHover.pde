@@ -20,7 +20,7 @@ public class TextHover extends Component
   @Override
   public void update()
   {
-    if(_collider == null)
+    if(_collider == null) //<>//
         _collider = GameObject.GetComponent(Shape.class);
 
     if(_collider.IsColliding(MousePos))
@@ -30,6 +30,34 @@ public class TextHover extends Component
     else
     {
       _text.enabled = false;
+    }
+  }
+}
+
+public class ImageHover extends Component
+{
+  Shape _collider;
+  ImageRenderer _image;
+  
+  @Override
+  void onAdd()
+  {
+    _collider = GameObject.GetComponent(Shape.class);
+    _image = GameObject.GetComponent(ImageRenderer.class);
+  }
+  @Override
+  public void update()
+  {
+    if(_collider == null)
+        _collider = GameObject.GetComponent(Shape.class);
+
+    if(_collider.IsColliding(MousePos))
+    {
+      _image.enabled = true;
+    }
+    else
+    {
+      _image.enabled = false;
     }
   }
 }

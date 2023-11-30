@@ -1,10 +1,10 @@
-public class AudioPlay 
+public class AudioPlay extends Component
 {
   private AudioPlayer Audio;
   private float ValueVolume;
   private boolean Loop;
   boolean _play;
-  // the contructer
+  // the constructer
   //AudioPlay("file_name","Volume from 6.0 to -80", boolean for whether you want the sound to loop)
   public AudioPlay(AudioPlayer pAudio, float pValueVolume, boolean pLoop)
   {
@@ -13,21 +13,21 @@ public class AudioPlay
     Loop = pLoop;
     Audio.setGain(ValueVolume);
   }
-  public void play()
+  void play()
   {
     Audio.play();
-    Audio.rewind();
     _play = true;
   }
+
   public void update()
   {
-    if(!Loop || !_play) return;
-    
+    if(!_play || !Loop) return;
+        
     if (Audio.position() >= Audio.length()) 
     {
-      Audio.rewind();
-      Audio.play();    
+       Audio.rewind();
     }
+    
   }
   
 }

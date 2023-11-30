@@ -27,7 +27,6 @@ public class Diary extends Interactable
     _fullGood = Images.get(pFullGoodImgName);
     _nextScene = pNextScene;
     _level = pLevel;
-    _audio = new AudioPlay(Audios.get("pageturn-102978.mp3"),-10,false);
   }
   SceneName _nextScene;
   PImage _halfFull;
@@ -38,7 +37,6 @@ public class Diary extends Interactable
   int _level;
   boolean waitOneFrame;
   ArrayList<GameObject> _sceneObjects;
-  AudioPlay _audio;
   
   @Override
   void onAdd()
@@ -51,8 +49,6 @@ public class Diary extends Interactable
       if(o != GameObject)
         o.Active = false;
     }
-    _audio.play();
-
   }
   public void interact()//it's reactivated by in teddy/door class
   {
@@ -87,7 +83,8 @@ public class Diary extends Interactable
         if(o != GameObject)
           o.Active = true;
       }
-      
+      //soundManager.play(sound);
+      Audios.get("pageturn-102978.mp3").play();
 
       GameObject.Active = false;    
       
@@ -108,7 +105,7 @@ public class Diary extends Interactable
       _renderer.Image = _fullGood;
      
     //second phase
-    _audio.play();
+    Audios.get("pageturn-102978.mp3").play();
      
      _secondPhase = true;
      GameObject.Active = true;
@@ -135,19 +132,21 @@ public class JumpScareHandler extends Interactable
   boolean flag;
   Diary _diary;
   AudioPlay _audio;
-  int timer = 15;
+  int timer = 10;
   @Override
   void onAdd()
   {
     _anim = SceneManager.GetObjectInScene("Cutscene").GetComponent(AnimationController.class);
+    _audio = SceneManager.GetObjectInScene("Audio").GetComponent(AudioPlay.class);
     _diary = SceneManager.GetObjectInScene("diary").GetComponent(Diary.class);
     _animRenderer = _anim.GameObject.GetComponent(ImageRenderer.class);
-    _anim.enabled = false;
   }
   @Override
   public void interact()
   {
     _anim.enabled = true;
+     _audio.enabled = true;
+
   }
   @Override
   void onExit()
@@ -367,7 +366,7 @@ public class LoreItem extends Interactable
     
   }
   @Override
-  public void update() //<>// //<>//
+  public void update()
   {
     if(!_alreadyDisabled && millis() - _currStayTime > _stayTime)
     {

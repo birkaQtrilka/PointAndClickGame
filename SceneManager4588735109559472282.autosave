@@ -42,7 +42,7 @@ public class SceneManager extends StateManager<SceneName>
             new Button()//debug true
           ) ,
           //Lock
-          new GameObject("lock",3,new PVector(450,275),new PVector(0.9f,0.9f),  
+          new GameObject("lock",3,new PVector(450,275),new PVector(0.4,0.4),  
             new ImageRenderer("lock.png"),
             new LockDelete(0)
           ) ,
@@ -55,7 +55,7 @@ public class SceneManager extends StateManager<SceneName>
             new Button()//debug true
           ),   
           //lock2
-          new GameObject("drink2", 3,new PVector(700,350),new PVector(0.9f,0.9f),  
+          new GameObject("drink2", 3,new PVector(700,350),new PVector(0.4,0.4),  
             new ImageRenderer("lock.png"),
             new LockDelete(1)
           )
@@ -98,7 +98,7 @@ public class SceneManager extends StateManager<SceneName>
             /*components*/
             new Teddy(true),
             new TextHover(),
-            new Text("Talk to Teddy",20,3, new PVector(0,10)),
+            new Text("Talk to Teddy \n v",20,3, new PVector(0,-80)),
             new Rectangle(new PVector(100,100),false),//debug true
             new PlayerCollisionChecker()
           ),
@@ -106,16 +106,16 @@ public class SceneManager extends StateManager<SceneName>
           new GameObject("books", 1, new PVector(width/3.5f,height/2.4f), /*scale*/new PVector(0.7f,0.7f),  
             new LoreItem("i_used_to_have_books.png",3000),
             new TextHover(),
-            new Text("Books\nV",20,3, new PVector(0,-50)),//textHover
+            new Text("books\nV",20,3, new PVector(0,-85)),//textHover
             new Rectangle(new PVector(100,100),false),//debug true
             new PlayerCollisionChecker()
           ),
           //door
-          new GameObject("door", 2,new PVector(90,height/2f),  
+          new GameObject("door", 2,new PVector(100,height/2f),  
             /*components*/
             new Transition(false),
             new TextHover(),
-            new Text("Talk to mom",20,3, new PVector(-5,-70)),
+            new Text("Talk to mom \n v",20,3, new PVector(0,-90)),
             new Rectangle(new PVector(150,300),false),//debug true
             new PlayerCollisionChecker()
           ),
@@ -158,7 +158,7 @@ public class SceneManager extends StateManager<SceneName>
 
           ),
         //woods
-          new GameObject("woods", 1,new PVector(width/2.6f,height/2.2f), new PVector(0.7f,0.7f),  
+          new GameObject("woods", 1,new PVector(width/2.55f,height/2.2f), new PVector(0.7f,0.7f),  
             new LoreItem("new_forest_text.png",2000),
             new TextHover(),
             new Text("Examine\nV",20,3, new PVector(0,-60)),//textHover
@@ -168,7 +168,7 @@ public class SceneManager extends StateManager<SceneName>
          //goodChoice GOING FOR THE BALL SOLO
           new GameObject("ballCoice", 2,new PVector(width/1.26f,height/1.9f),  
             new TextHover(),
-            new Text("Go for the ball yourself\nV",20,3, new PVector(-1,-30)),
+            new Text("Go for the ball yourself\nV",20,3, new PVector(0,-30)),
             new JumpScareHandler(),
             new Rectangle(new PVector(70,120),false),//debug true
             new PlayerCollisionChecker()
@@ -193,7 +193,11 @@ public class SceneManager extends StateManager<SceneName>
         //CutScene
         new GameObject("Cutscene", 4, new PVector(width/2, height/2), new PVector(.5f,.5f),
           new AnimationController(AnimationName.ArmJumpScare),
-          new ImageRenderer(""))
+          new ImageRenderer("")),
+       //Audio Cutscene
+         new GameObject("Audio", 4, new PVector(width/2, height/2), new PVector(.5f,.5f)
+          //transition after cutscene to next diary
+        )
       ),
       //text over the group of mean guys at start of the scene that disappears after some time
       //add friend group to the left
@@ -209,13 +213,13 @@ public class SceneManager extends StateManager<SceneName>
             new PlayerFollow(new PVector(0,-150))
         ),
         //player
-        new GameObject("player",/*pLayer*/ 3, new PVector(width/1.7f,height/1.65f), /*scale*/new PVector(0.35f,0.35f),  
+        new GameObject("player",/*pLayer*/ 3, new PVector(width/1.3f,height/1.65f), /*scale*/new PVector(0.25f,0.25f),  
             new Player(),
             new AnimationController(AnimationName.TeenIdle),
             new ImageRenderer(""),
             new PlayerMovement(8),
             new Grab(),
-            new Rectangle(new PVector(90,200),true)//debug true
+            new Rectangle(new PVector(90,200),false)//debug true
         ),
         //friends (no speech bubble)
         new GameObject("friends",1,new PVector(width/5,height/1.8f),new PVector(0.25f,0.25f),
@@ -243,7 +247,7 @@ public class SceneManager extends StateManager<SceneName>
         new GameObject("badGuys text hover",1,new PVector(width/1.4f,height/2),new PVector(0.25f,0.25f),
             new Rectangle(new PVector(230,300),false),
             new TextHover(),//image hover
-            new Text("Go drink a bear\nV", 20,3, new PVector(-10,-114)),
+            new Text("Go drink a bear\nV", 20,3, new PVector(0,-105)),
             new PlayerCollisionChecker(),
             new DrinkBear(Images.get("partyroom_dark.png"), 3000)
         ),
